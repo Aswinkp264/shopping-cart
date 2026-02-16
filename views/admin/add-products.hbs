@@ -1,0 +1,105 @@
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-5">
+
+        <div class="card border-0 shadow-sm rounded-4">
+          <div class="card-body p-4">
+
+            <h4 class="fw-semibold mb-4 text-center">Add Product</h4>
+
+            <form
+              action="/admin/add-products"
+              method="POST"
+              enctype="multipart/form-data"
+              onsubmit="return validateForm();"
+            >
+
+              <!-- Name -->
+              <div class="form-floating mb-3">
+                <input type="text" id="name" name="name" class="form-control" placeholder="Name">
+                <label>Product Name</label>
+                <small class="text-danger" id="nameError"></small>
+              </div>
+
+              <!-- Category -->
+              <div class="form-floating mb-3">
+                <input type="text" id="category" name="category" class="form-control" placeholder="Category">
+                <label>Category</label>
+                <small class="text-danger" id="categoryError"></small>
+              </div>
+
+              <!-- Description -->
+              <div class="form-floating mb-3">
+                <textarea id="description" name="description" class="form-control" style="height: 100px" placeholder="Description"></textarea>
+                <label>Description</label>
+                <small class="text-danger" id="descriptionError"></small>
+              </div>
+
+              <!-- Price -->
+              <div class="form-floating mb-3">
+                <input type="number" id="price" name="price" class="form-control" placeholder="Price">
+                <label>Price</label>
+                <small class="text-danger" id="priceError"></small>
+              </div>
+
+              <!-- Image -->
+              <div class="mb-3">
+                <label class="form-label fw-medium">Product Image</label>
+                <input
+                  type="file"
+                  id="image"
+                  name="image"
+                  class="form-control form-control-sm"
+                  accept="image/*"
+                  onchange="previewImage(event)"
+                >
+                <small class="text-danger" id="imageError"></small>
+              </div>
+
+              <!-- Preview -->
+              <div class="text-center mb-3">
+                <img
+                  id="imagePreview"
+                  class="img-fluid rounded-3 border d-none"
+                  style="max-height: 160px"
+                >
+              </div>
+
+              <!-- Button -->
+              <div class="d-grid">
+                <button class="btn btn-dark rounded-pill py-2">
+                  Add Product
+                </button>
+              </div>
+
+            </form>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function previewImage(e) {
+      const img = document.getElementById("imagePreview");
+      img.src = URL.createObjectURL(e.target.files[0]);
+      img.classList.remove("d-none");
+    }
+
+    function validateForm() {
+      let ok = true;
+
+      ["nameError","categoryError","descriptionError","priceError","imageError"]
+        .forEach(id => document.getElementById(id).innerText = "");
+
+      if (!name.value.trim()) { nameError.innerText = "Required"; ok = false; }
+      if (!category.value.trim()) { categoryError.innerText = "Required"; ok = false; }
+      if (!description.value.trim()) { descriptionError.innerText = "Required"; ok = false; }
+      if (!price.value || price.value <= 0) { priceError.innerText = "Invalid price"; ok = false; }
+      if (!image.files.length) { imageError.innerText = "Image required"; ok = false; }
+
+      return ok;
+    }
+  </script>

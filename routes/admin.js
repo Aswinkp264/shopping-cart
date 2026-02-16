@@ -1,40 +1,44 @@
 var express = require("express");
 var router = express.Router();
+var productHelper = require("../helpers/product-helpers");
 
-/* GET users listing. */
-router.get("/", function (req, res, next) {
-  res.render("admin/view-products", { admin: true ,Products});
+// View products
+router.get("/", function (req, res) {
+  res.render("admin/view-products", { admin: true, Products });
 });
+
+// Dummy products (temporary)
 let Products = [
   {
     name: "samsung S25",
     category: "mobile",
     description: "256GB",
-    image:
-      "https://rukminim2.flixcart.com/image/480/640/xif0q/mobile/i/s/g/-original-imahgfmzraymrnrg.jpeg?q=90",
-  },
-  {
-    name: "iphone 16",
-    category: "mobile",
-    description: "256GB",
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwnjRu2piR1q7hR_dy4OVQsuY2aPXU8rOhpg&s",
-  },
-  {
-    name: "Redmi Note7",
-    category: "mobile",
-    description: "256GB",
-    image:
-      "https://akm-img-a-in.tosshub.com/indiatoday/images/device/1766470430Xiaomi-17-Pro-specs-800x800_one_to_one.jpg?VersionId=79NoscaJncT12OFS0S0UtQGJoeA7TLPe",
-  },
-  {
-    name: "vivo XT",
-    category: "mobile",
-    description: "256GB",
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaCpF6yFKnKVUfA_PEiuQZQRQ5JAaYHOi0zA&s",
+    image: "sample.jpg",
   },
 ];
 
+// Add product page
+router.get("/add-products", function (req, res) {
+  res.render("admin/add-products", { admin: true });
+});
+
+// Add product POST
+router.post("/add-products", (req, res) => {
+  productHelper.addProduct(req.body, (id) => {
+    if (req.files && req.files.image) {
+      let image = req.files.image;
+
+      image.mv("./public/product-images/" + id + ".jpg", (err) => {
+        if (!err) {
+          res.redirect("/admin");
+        } else {
+          console.log(err);
+        }
+      });
+    } else {
+      res.redirect("/admin");
+    }
+  });
+});
 
 module.exports = router;
