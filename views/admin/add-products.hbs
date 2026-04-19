@@ -1,105 +1,201 @@
+<div class="premium-bg">
+
   <div class="container py-5">
     <div class="row justify-content-center">
-      <div class="col-lg-5">
+      <div class="col-lg-5 col-md-7">
 
-        <div class="card border-0 shadow-sm rounded-4">
-          <div class="card-body p-4">
+        <div class="premium-card">
 
-            <h4 class="fw-semibold mb-4 text-center">Add Product</h4>
+          <h3 class="text-center fw-bold mb-4 text-white">
+            ✨ Add New Product
+          </h3>
 
-            <form
-              action="/admin/add-products"
-              method="POST"
-              enctype="multipart/form-data"
-              onsubmit="return validateForm();"
-            >
+          <form
+            action="/admin/add-products"
+            method="POST"
+            enctype="multipart/form-data"
+            onsubmit="return validateForm();"
+          >
 
-              <!-- Name -->
-              <div class="form-floating mb-3">
-                <input type="text" id="name" name="name" class="form-control" placeholder="Name">
-                <label>Product Name</label>
-                <small class="text-danger" id="nameError"></small>
-              </div>
+            <!-- Product Name -->
+            <div class="mb-3">
+              <label class="form-label text-light">Product Name</label>
+              <input type="text" id="name" name="name"
+                class="form-control premium-input">
+              <small class="text-danger" id="nameError"></small>
+            </div>
 
-              <!-- Category -->
-              <div class="form-floating mb-3">
-                <input type="text" id="category" name="category" class="form-control" placeholder="Category">
-                <label>Category</label>
-                <small class="text-danger" id="categoryError"></small>
-              </div>
+            <!-- Category -->
+            <div class="mb-3">
+              <label class="form-label text-light">Category</label>
+              <input type="text" id="category" name="category"
+                class="form-control premium-input">
+              <small class="text-danger" id="categoryError"></small>
+            </div>
 
-              <!-- Description -->
-              <div class="form-floating mb-3">
-                <textarea id="description" name="description" class="form-control" style="height: 100px" placeholder="Description"></textarea>
-                <label>Description</label>
-                <small class="text-danger" id="descriptionError"></small>
-              </div>
+            <!-- Description -->
+            <div class="mb-3">
+              <label class="form-label text-light">Description</label>
+              <textarea id="description" name="description"
+                class="form-control premium-input"
+                style="height:100px"></textarea>
+              <small class="text-danger" id="descriptionError"></small>
+            </div>
 
-              <!-- Price -->
-              <div class="form-floating mb-3">
-                <input type="number" id="price" name="price" class="form-control" placeholder="Price">
-                <label>Price</label>
-                <small class="text-danger" id="priceError"></small>
-              </div>
+            <!-- Price -->
+            <div class="mb-3">
+              <label class="form-label text-light">Price (₹)</label>
+              <input type="number" id="price" name="price"
+                class="form-control premium-input">
+              <small class="text-danger" id="priceError"></small>
+            </div>
 
-              <!-- Image -->
-              <div class="mb-3">
-                <label class="form-label fw-medium">Product Image</label>
-                <input
-                  type="file"
-                  id="image"
-                  name="image"
-                  class="form-control form-control-sm"
-                  accept="image/*"
-                  onchange="previewImage(event)"
-                >
-                <small class="text-danger" id="imageError"></small>
-              </div>
+            <!-- Image Upload -->
+            <div class="mb-3">
+              <label class="form-label text-light">Upload Image</label>
+              <input type="file"
+                     id="image"
+                     name="image"
+                     class="form-control premium-input"
+                     accept="image/*"
+                     onchange="previewImage(event)">
+              <small class="text-danger" id="imageError"></small>
+            </div>
 
-              <!-- Preview -->
-              <div class="text-center mb-3">
-                <img
-                  id="imagePreview"
-                  class="img-fluid rounded-3 border d-none"
-                  style="max-height: 160px"
-                >
-              </div>
+            <!-- Image Preview -->
+            <div class="text-center mb-4">
+              <img id="imagePreview"
+                   class="img-fluid rounded-4 shadow d-none"
+                   style="max-height: 180px;">
+            </div>
 
-              <!-- Button -->
-              <div class="d-grid">
-                <button class="btn btn-dark rounded-pill py-2">
-                  Add Product
-                </button>
-              </div>
+            <!-- Button -->
+            <div class="d-grid">
+              <button class="btn premium-btn">
+                🚀 Add Product
+              </button>
+            </div>
 
-            </form>
+          </form>
 
-          </div>
         </div>
 
       </div>
     </div>
   </div>
 
-  <script>
-    function previewImage(e) {
-      const img = document.getElementById("imagePreview");
-      img.src = URL.createObjectURL(e.target.files[0]);
-      img.classList.remove("d-none");
-    }
+</div>
 
-    function validateForm() {
-      let ok = true;
+<style>
+/* Background */
+.premium-bg {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1e1e2f, #2b2b45);
+  display: flex;
+  align-items: center;
+}
 
-      ["nameError","categoryError","descriptionError","priceError","imageError"]
-        .forEach(id => document.getElementById(id).innerText = "");
+/* Card */
+.premium-card {
+  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.08);
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+  border: 1px solid rgba(255,255,255,0.1);
+}
 
-      if (!name.value.trim()) { nameError.innerText = "Required"; ok = false; }
-      if (!category.value.trim()) { categoryError.innerText = "Required"; ok = false; }
-      if (!description.value.trim()) { descriptionError.innerText = "Required"; ok = false; }
-      if (!price.value || price.value <= 0) { priceError.innerText = "Invalid price"; ok = false; }
-      if (!image.files.length) { imageError.innerText = "Image required"; ok = false; }
+/* Inputs */
+.premium-input {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: white;
+  border-radius: 12px;
+  padding: 12px;
+}
 
-      return ok;
-    }
-  </script>
+.premium-input::placeholder {
+  color: #ddd;
+}
+
+.premium-input:focus {
+  background: rgba(255,255,255,0.15);
+  border-color: #ffc107;
+  box-shadow: 0 0 12px rgba(255,193,7,0.4);
+  color: white;
+}
+
+/* Button */
+.premium-btn {
+  background: linear-gradient(135deg, #ff9800, #ff5722);
+  border: none;
+  padding: 12px;
+  border-radius: 30px;
+  font-weight: bold;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.premium-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+}
+
+/* Animation */
+.premium-card {
+  animation: fadeInUp 0.5s ease;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>
+
+<script>
+function previewImage(e) {
+  const img = document.getElementById("imagePreview");
+  img.src = URL.createObjectURL(e.target.files[0]);
+  img.classList.remove("d-none");
+}
+
+function validateForm() {
+  let ok = true;
+
+  ["nameError","categoryError","descriptionError","priceError","imageError"]
+    .forEach(id => document.getElementById(id).innerText = "");
+
+  if (!name.value.trim()) {
+    nameError.innerText = "Required";
+    ok = false;
+  }
+
+  if (!category.value.trim()) {
+    categoryError.innerText = "Required";
+    ok = false;
+  }
+
+  if (!description.value.trim()) {
+    descriptionError.innerText = "Required";
+    ok = false;
+  }
+
+  if (!price.value || price.value <= 0) {
+    priceError.innerText = "Invalid price";
+    ok = false;
+  }
+
+  if (!image.files.length) {
+    imageError.innerText = "Image required";
+    ok = false;
+  }
+
+  return ok;
+}
+</script>

@@ -1,38 +1,99 @@
-<section>
+<section class="py-4">
   <div class="container">
-    <div class="row">
-      <div class="d-flex justify-content-end mb-3">
-        <a href="/admin/add-products" class="btn btn-success">Add</a>
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h4 class="fw-bold">📦 All Products</h4>
+      <a href="/admin/add-products" class="btn btn-primary">
+        <i class="bi bi-plus-circle me-1"></i> Add Product
+      </a>
+    </div>
+
+    <!-- Card -->
+    <div class="card shadow-sm border-0 rounded-4">
+      <div class="card-body p-0">
+
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+
+            <thead class="table-dark">
+              <tr>
+                <th>#</th>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Description</th>
+                <th class="text-center">Actions</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {{#each products}}
+              <tr>
+
+                <td>{{inc @index}}</td>
+
+                <td>
+                  <img
+                    src="/product-images/{{this._id}}.jpg"
+                    class="product-img"
+                    alt="product"
+                  />
+                </td>
+
+                <td class="fw-semibold">{{this.name}}</td>
+
+                <td>
+                  <span class="badge bg-secondary">
+                    {{this.category}}
+                  </span>
+                </td>
+
+                <td class="text-muted small">
+                  {{this.description}}
+                </td>
+
+                <td class="text-center">
+
+                  <a href="/admin/edit-product/{{this._id}}"
+                     class="btn btn-sm btn-outline-warning me-2">
+                    <i class="bi bi-pencil"></i>
+                  </a>
+
+                  <a href="/admin/delete-product/{{this._id}}"
+                     class="btn btn-sm btn-outline-danger"
+                     onclick="return confirm('Delete this product?')">
+                    <i class="bi bi-trash"></i>
+                  </a>
+
+                </td>
+
+              </tr>
+              {{/each}}
+            </tbody>
+
+          </table>
+        </div>
+
       </div>
     </div>
 
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">No</th>
-          <th scope="col">Title</th>
-          <th scope="col">Category</th>
-          <th scope="col">Description</th>
-          <th scope="col">Image</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each Products}}
-
-          <tr>
-            <th scope="row">1</th>
-            <td>{{this.name}}</td>
-            <td>{{this.category}}</td>
-            <td>{{this.description}}</td>
-            <td><img
-                style="width: 50px;height: 50px;"
-                src="{{this.image}}"
-                alt="products"
-              /></td>
-
-          </tr>
-        {{/each}}
-      </tbody>
-    </table>
   </div>
 </section>
+
+<style>
+.product-img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+.card {
+  border-radius: 16px;
+}
+</style>

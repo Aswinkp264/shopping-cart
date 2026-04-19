@@ -1,40 +1,69 @@
 var express = require("express");
 var router = express.Router();
+var productHelper = require("../helpers/product-helpers");
+const userHelpers = require("../helpers/user-helpers");
+const { response } = require("../app");
 
-/* GET home page. */
-router.get("/", function (req, res, next) {
-  let Products = [
-    {
-      name: "samsung S25",
-      category: "mobile",
-      description: "256GB",
-      image:
-        "https://rukminim2.flixcart.com/image/480/640/xif0q/mobile/i/s/g/-original-imahgfmzraymrnrg.jpeg?q=90",
-    },
-    {
-      name: "iphone 16",
-      category: "mobile",
-      description: "256GB",
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwnjRu2piR1q7hR_dy4OVQsuY2aPXU8rOhpg&s",
-    },
-    {
-      name: "Redmi Note7",
-      category: "mobile",
-      description: "256GB",
-      image:
-        "https://akm-img-a-in.tosshub.com/indiatoday/images/device/1766470430Xiaomi-17-Pro-specs-800x800_one_to_one.jpg?VersionId=79NoscaJncT12OFS0S0UtQGJoeA7TLPe",
-    },
-    {
-      name: "vivo XT",
-      category: "mobile",
-      description: "256GB",
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaCpF6yFKnKVUfA_PEiuQZQRQ5JAaYHOi0zA&s",
-    },
-  ];
+/* GET home page - User View Products */
+router.get("/", function (req, res) {
+  let user = req.session.user;
+  console.log(user);
+  productHelper
+    .getAllProducts()
+    .then((products) => {
+      res.render("user/view-products", {
+        // 👈 Better structure
+        products: products,
+        user,
+        admin: false,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send("Error loading products");
+    });
+});
 
-  res.render("index", { Products, admin: false});
+/* GET Login Page */
+router.get("/login", (req, res) => {
+  if (req.session.loggedIn) {
+    res.redirect("/");
+  } else {
+    res.render("user/login", {
+      layout: false,
+      logginErr: req.session.logginErr ? "Invalid email or password" : null,
+    });
+    req.session.logginErr = false;
+  }
+});
+
+// Get Registration page
+
+router.get("/signup", (req, res) => {
+  res.render("user/signup", { layout: false });
+});
+
+router.post("/signup", (req, res) => {
+  userHelpers.doSignup(req.body).then((response) => {
+    console.log(response);
+    res.redirect("/login");
+  });
+});
+router.post("/login", (req, res) => {
+  userHelpers.doLogin(req.body).then((response) => {
+    if (response.status) {
+      req.session.loggedIn = true;
+      req.session.user = response.user;
+      res.redirect("/");
+    } else {
+      req.session.logginErr = true;
+      res.redirect("/login");
+    }
+  });
+});
+router.get("/logout", (req, res) => {
+  req.session.destroy();
+  res.redirect("/login");
 });
 
 module.exports = router;

@@ -11,6 +11,7 @@ var fileUpload = require("express-fileupload");
 
 var app = express();
 var db = require("./config/connection");
+var session = require("express-session");
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -22,6 +23,11 @@ app.engine(
     defaultLayout: "layout",
     layoutsDir: path.join(__dirname, "views/layouts"),
     partialsDir: path.join(__dirname, "views/partials"),
+    helpers: {
+      inc: function (value) {
+        return parseInt(value) + 1;
+      },
+    },
   }),
 );
 
@@ -33,13 +39,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(fileUpload());
+app.use(session({ secret: "key", cookie: { maxAge: 60000 } }));
 
 db.connect((err) => {
-  if (err) {
-    console.error("MongoDB connection failed", err);
-  } else {
-    console.log("Database connected successfully");
-  }
+  // if (err) {
+  //   console.error("MongoDB connection failed", err);
+  // } else {
+  //   console.log("Database connected successfully");
+  // }
 });
 
 app.use("/", userRouter);

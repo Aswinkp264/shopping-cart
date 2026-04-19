@@ -1,0 +1,106 @@
+<section class="py-5 bg-light">
+  <div class="container">
+
+    <!-- Page Title -->
+    <div class="text-center mb-5">
+      <h2 class="fw-bold">🛍️ Explore Our Products</h2>
+      <p class="text-muted">Premium Collection Just For You</p>
+    </div>
+
+    <div class="row g-4">
+
+      {{#each products}}
+      <div class="col-md-4 col-lg-3">
+        <div class="card product-card h-100 shadow-sm border-0">
+
+          <!-- Product Image -->
+          <div class="product-image-wrapper">
+            <img src="/product-images/{{this._id}}.jpg"
+                 class="card-img-top"
+                 alt="{{this.name}}">
+          </div>
+
+          <!-- Product Details -->
+          <div class="card-body text-center">
+
+            <h6 class="fw-semibold mb-1">
+              {{this.name}}
+            </h6>
+
+            <span class="badge bg-secondary mb-2">
+              {{this.category}}
+            </span>
+
+            <p class="text-muted small">
+              {{this.description}}
+            </p>
+
+            <!-- Add to Cart Button -->
+            <button class="btn btn-dark w-100 mt-2"
+                    onclick="addToCart('{{this._id}}')">
+              <i class="bi bi-cart-plus me-1"></i> Add to Cart
+            </button>
+
+          </div>
+
+        </div>
+      </div>
+      {{/each}}
+
+    </div>
+
+  </div>
+</section>
+
+
+<script>
+function addToCart(proId) {
+  fetch('/add-to-cart/' + proId)
+    .then(response => response.json())
+    .then(data => {
+      if (data.status) {
+        alert("Product added to cart 🛒");
+        location.reload();
+      }
+    });
+}
+</script>
+
+
+<style>
+.product-card {
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+}
+
+.product-image-wrapper {
+  height: 220px;
+  overflow: hidden;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.product-image-wrapper img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.product-card:hover img {
+  transform: scale(1.05);
+}
+
+.btn-dark {
+  border-radius: 12px;
+}
+
+.badge {
+  border-radius: 8px;
+}
+</style>

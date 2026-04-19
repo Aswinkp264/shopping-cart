@@ -11,7 +11,7 @@ module.exports.connect = async function (done) {
   try {
     const client = await MongoClient.connect(url);
     state.db = client.db(dbname);
-    console.log("MongoDB Connected");
+    // console.log("MongoDB Connected");
     done();
   } catch (err) {
     done(err);

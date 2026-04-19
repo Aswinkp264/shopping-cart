@@ -2,43 +2,58 @@ var express = require("express");
 var router = express.Router();
 var productHelper = require("../helpers/product-helpers");
 
-// View products
+// ==============================
+// View All Products
+// ==============================
 router.get("/", function (req, res) {
-  res.render("admin/view-products", { admin: true, Products });
+  productHelper
+    .getAllProducts()
+    .then((products) => {
+      res.render("admin/view-products", {
+        admin: true,
+        products: products,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send("Error loading products");
+    });
 });
 
-// Dummy products (temporary)
-let Products = [
-  {
-    name: "samsung S25",
-    category: "mobile",
-    description: "256GB",
-    image: "sample.jpg",
-  },
-];
-
-// Add product page
+// ==============================
+// Add Product Page
+// ==============================
 router.get("/add-products", function (req, res) {
   res.render("admin/add-products", { admin: true });
 });
 
-// Add product POST
-router.post("/add-products", (req, res) => {
-  productHelper.addProduct(req.body, (id) => {
-    if (req.files && req.files.image) {
-      let image = req.files.image;
+// ==============================
+// Add Product POST
+// ==============================
+router.post("/add-products", function (req, res) {
+  productHelper
+    .addProduct(req.body)
+    .then((id) => {
+      if (req.files && req.files.image) {
+        let image = req.files.image;
 
-      image.mv("./public/product-images/" + id + ".jpg", (err) => {
-        if (!err) {
+        // 🔥 Always save image as .jpg
+        image.mv("./public/product-images/" + id + ".jpg", (err) => {
+          if (err) {
+            console.log("Image upload error:", err);
+            return res.status(500).send("Image upload failed");
+          }
+
           res.redirect("/admin");
-        } else {
-          console.log(err);
-        }
-      });
-    } else {
-      res.redirect("/admin");
-    }
-  });
+        });
+      } else {
+        res.redirect("/admin");
+      }
+    })
+    .catch((err) => {
+      console.log("Product add error:", err);
+      res.status(500).send("Error adding product");
+    });
 });
 
 module.exports = router;

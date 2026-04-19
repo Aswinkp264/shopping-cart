@@ -1,39 +1,137 @@
 <header>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Admin panel</a>
+  <nav class="navbar navbar-expand-lg navbar-dark admin-navbar shadow-sm">
+    <div class="container">
+
+      <!-- Brand -->
+      <a class="navbar-brand fw-bold fs-5" href="/admin">
+        ⚙️ Admin Panel
+      </a>
+
+      <!-- Toggle -->
       <button
         class="navbar-toggler"
         type="button"
         data-bs-toggle="collapse"
-        data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
+        data-bs-target="#adminNavbar"
       >
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+      <div class="collapse navbar-collapse" id="adminNavbar">
+        <ul class="navbar-nav ms-auto align-items-center gap-3">
+
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">All Products</a>
+            <a class="nav-link nav-hover" href="/admin">
+              <i class="bi bi-box-seam me-1"></i> Products
+            </a>
           </li>
+
           <li class="nav-item">
-            <a class="nav-link" href="/admin/products">All orders</a>
+            <a class="nav-link nav-hover" href="/admin/orders">
+              <i class="bi bi-receipt me-1"></i> Orders
+            </a>
           </li>
+
           <li class="nav-item">
-            <a class="nav-link" href="#">All Users</a>
+            <a class="nav-link nav-hover" href="/admin/users">
+              <i class="bi bi-people me-1"></i> Users
+            </a>
           </li>
-        <form class="d-flex">
-          <input
-            class="form-control me-2"
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-          />
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
+
+          <!-- Admin Dropdown -->
+          <li class="nav-item dropdown">
+
+            <a
+              class="nav-link dropdown-toggle d-flex align-items-center nav-hover"
+              href="#"
+              role="button"
+              data-bs-toggle="dropdown"
+            >
+              <div class="admin-avatar me-2">
+                A
+              </div>
+              Admin
+            </a>
+
+            <ul class="dropdown-menu dropdown-menu-end modern-dropdown shadow border-0">
+
+              <li>
+                <a class="dropdown-item modern-item" href="/">
+                  <i class="bi bi-house me-2"></i> Go to Store
+                </a>
+              </li>
+
+              <li>
+                <a class="dropdown-item modern-item text-danger" href="/admin/logout">
+                  <i class="bi bi-box-arrow-right me-2"></i> Logout
+                </a>
+              </li>
+
+            </ul>
+          </li>
+
+        </ul>
       </div>
     </div>
   </nav>
 </header>
+
+<style>
+/* Admin Gradient */
+.admin-navbar {
+  background: linear-gradient(135deg, #2c3e50, #1a252f);
+}
+
+/* Links */
+.nav-hover {
+  color: #fff !important;
+  font-weight: 500;
+  transition: 0.3s ease;
+}
+
+.nav-hover:hover {
+  color: #00d4ff !important;
+  transform: translateY(-1px);
+}
+
+/* Admin Avatar */
+.admin-avatar {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, #00c6ff, #0072ff);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+/* Dropdown */
+.modern-dropdown {
+  border-radius: 12px;
+  padding: 8px 0;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.modern-item {
+  padding: 10px 18px;
+  transition: 0.2s;
+}
+
+.modern-item:hover {
+  background: #f1f1f1;
+  padding-left: 22px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>
