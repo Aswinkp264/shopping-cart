@@ -55,5 +55,36 @@ router.post("/add-products", function (req, res) {
       res.status(500).send("Error adding product");
     });
 });
+router.get("/delete-product/:id", (req, res) => {
+  let proId = req.params.id;
+
+  productHelper.deleteProduct(proId).then(() => {
+    res.redirect("/admin");
+  });
+});
+
+router.get("/edit-product/:id", (req, res) => {
+  let proId = req.params.id;
+
+  productHelper.getProductDetails(proId).then((product) => {
+    res.render("admin/edit-product", {
+      admin: true,
+      product: product,
+    });
+  });
+});
+router.post("/edit-product/:id", (req, res) => {
+  let proId = req.params.id;
+
+  productHelper.updateProduct(proId, req.body).then(() => {
+    if (req.files && req.files.image) {
+      let image = req.files.image;
+
+      image.mv("./public/product-images/" + proId + ".jpg");
+    }
+
+    res.redirect("/admin");
+  });
+});
 
 module.exports = router;
