@@ -62,9 +62,10 @@
 </section>
 
 <script>
-  function addToCart(proId) { fetch('/add-to-cart/' + proId) .then(response =>
-  response.json()) .then(data => { if (data.status) { alert("Product added to
-  cart 🛒"); location.reload(); } }); }
+  function addToCart(proId) { fetch('/add-to-cart/' + proId) .then(response => {
+  if (response.redirected) { window.location.href = '/login'; return; } return
+  response.json(); }) .then(data => { if (data && data.status) {
+  location.reload(); } }) .catch(err => { console.log('Error:', err); }); }
 </script>
 
 <style>

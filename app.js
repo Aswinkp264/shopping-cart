@@ -39,8 +39,16 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(fileUpload());
-app.use(session({ secret: "key", cookie: { maxAge: 600000 } }));
-
+app.use(
+  session({
+    secret: "your-secret-key",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24 * 7, // 👈 7 days - increase session time
+    },
+  }),
+);
 db.connect((err) => {
   // if (err) {
   //   console.error("MongoDB connection failed", err);

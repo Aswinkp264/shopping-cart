@@ -86,5 +86,5 @@ router.post("/edit-product/:id", (req, res) => {
     res.redirect("/admin");
   });
 });
-
+ 
 module.exports = router;

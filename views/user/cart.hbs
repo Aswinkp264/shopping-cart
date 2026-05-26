@@ -1,1 +1,101 @@
-<h2>Cart is empty</h2>
+<section class="py-5 bg-light">
+  <div class="container">
+
+    <h3 class="mb-4 fw-bold">Your Cart</h3>
+
+    {{#if products}}
+
+      <div class="card shadow-sm border-0">
+        <div class="card-body">
+
+          {{#each products}}
+          <div class="row align-items-center mb-3">
+
+            <div class="col-md-2">
+              <img src="/product-images/{{this.product._id}}.jpg"
+                   class="img-fluid rounded">
+            </div>
+
+            <div class="col-md-3">
+              <h6 class="fw-bold">{{this.product.name}}</h6>
+              <p class="text-muted small">{{this.product.description}}</p>
+            </div>
+
+            <div class="col-md-2">
+              ₹ {{this.product.price}}
+            </div>
+
+            <!-- 👈 ADDED increment/decrement buttons -->
+            <div class="col-md-2 text-center">
+              <div class="d-flex align-items-center justify-content-center gap-2">
+                <button class="btn btn-outline-secondary btn-sm"
+                  onclick="changeQuantity('{{this.item}}', 'decrement')">−</button>
+                <span>{{this.quantity}}</span>
+                <button class="btn btn-outline-secondary btn-sm"
+                  onclick="changeQuantity('{{this.item}}', 'increment')">+</button>
+              </div>
+            </div>
+
+            <div class="col-md-2 text-end">
+              ₹ {{this.subtotal}}
+            </div>
+
+            <div class="col-md-1 text-end">
+              <button class="btn btn-danger btn-sm"
+                onclick="removeFromCart('{{this.item}}')">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+
+          </div>
+          <hr>
+          {{/each}}
+
+          <div class="text-end">
+            <h5>Total: ₹ {{total}}</h5>
+          </div>
+
+        </div>
+      </div>
+
+    {{else}}
+
+      <div class="text-center">
+        <h5>Your cart is empty</h5>
+        <a href="/" class="btn btn-dark mt-3">Shop Now</a>
+      </div>
+
+    {{/if}}
+
+  </div>
+</section>
+
+<script>
+  function changeQuantity(proId, action) {
+    fetch('/change-quantity', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ proId, action })
+    })
+    .then(res => res.json())
+    .then(data => {
+      location.reload();
+    });
+  }
+
+  function removeFromCart(proId) {
+    fetch('/remove-from-cart/' + proId)
+      .then(response => response.json())
+      .then(data => {
+        if (data.status) {
+          location.reload();
+        }
+      });
+  }
+</script>
+
+<style>
+  .btn-danger {
+    border-radius: 8px;
+  }
+</style>
