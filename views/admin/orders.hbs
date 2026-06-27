@@ -1,0 +1,283 @@
+<section class="py-5" style="background: #f0f2f5; min-height: 100vh;">
+  <div class="container">
+
+    <div class="d-flex align-items-center mb-4">
+      <div class="header-icon me-3">
+        <i class="bi bi-bag-check fs-4 text-white"></i>
+      </div>
+      <div>
+        <h3 class="fw-bold mb-0">Manage Orders</h3>
+        <small class="text-muted">View and update all customer orders</small>
+      </div>
+    </div>
+
+    {{#if orders}}
+
+      {{#each orders}}
+      <div class="order-card mb-4">
+
+        <div class="order-header d-flex justify-content-between align-items-center">
+          <div class="d-flex align-items-center gap-3">
+            <div class="order-icon">
+              <i class="bi bi-box-seam text-white"></i>
+            </div>
+            <div>
+              <small class="text-muted d-block">Order ID</small>
+              <span class="fw-semibold" style="font-size: 13px; color: #e0e0e0;">
+                {{this._id}}
+              </span>
+            </div>
+          </div>
+
+          {{#if (eq this.status "Placed")}}
+            <span class="status-badge placed">
+              <i class="bi bi-clock me-1"></i> Placed
+            </span>
+          {{else if (eq this.status "Shipped")}}
+            <span class="status-badge shipped">
+              <i class="bi bi-truck me-1"></i> Shipped
+            </span>
+          {{else if (eq this.status "Delivered")}}
+            <span class="status-badge delivered">
+              <i class="bi bi-check-circle me-1"></i> Delivered
+            </span>
+          {{else if (eq this.status "Cancelled")}}
+            <span class="status-badge cancelled">
+              <i class="bi bi-x-circle me-1"></i> Cancelled
+            </span>
+          {{else if (eq this.status "Return Requested")}}
+            <span class="status-badge return-requested">
+              <i class="bi bi-arrow-return-left me-1"></i> Return Requested
+            </span>
+          {{else if (eq this.status "Return Approved")}}
+            <span class="status-badge return-approved">
+              <i class="bi bi-check2-circle me-1"></i> Return Approved
+            </span>
+          {{else}}
+            <span class="status-badge placed">{{this.status}}</span>
+          {{/if}}
+        </div>
+
+        <div class="order-meta d-flex gap-4 px-4 py-2 flex-wrap">
+          <div>
+            <small class="text-muted">Customer</small>
+            <p class="fw-semibold mb-0 small">{{this.user.name}}</p>
+          </div>
+          <div>
+            <small class="text-muted">Phone</small>
+            <p class="fw-semibold mb-0 small">{{this.deliveryDetails.phone}}</p>
+          </div>
+          <div>
+            <small class="text-muted">Address</small>
+            <p class="fw-semibold mb-0 small">{{this.deliveryDetails.address}}, {{this.deliveryDetails.pincode}}</p>
+          </div>
+          <div>
+            <small class="text-muted">Payment</small>
+            <p class="fw-semibold mb-0 small">{{this.paymentMethod}}</p>
+          </div>
+          <div>
+            <small class="text-muted">Total</small>
+            <p class="fw-bold mb-0 small text-success">₹ {{this.totalAmount}}</p>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="px-4 py-3">
+          <small class="text-muted fw-semibold d-block mb-2">ITEMS ORDERED</small>
+          {{#each this.products}}
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <div class="d-flex align-items-center gap-2">
+              <div class="product-dot"></div>
+              <span class="fw-semibold small">{{this.name}}</span>
+              <span class="qty-badge">x{{this.quantity}}</span>
+            </div>
+            <span class="fw-semibold small">₹ {{this.subtotal}}</span>
+          </div>
+          {{/each}}
+        </div>
+
+        <!-- 👈 ADDED - Show return reason in admin -->
+        {{#if this.returnReason}}
+        <div class="px-4 py-2" style="background: #fff8f0; border-top: 1px solid #ffe0c0;">
+          <small class="text-danger fw-semibold">
+            <i class="bi bi-exclamation-circle me-1"></i> Return Reason:
+          </small>
+          <p class="small text-muted mb-0 mt-1">{{this.returnReason}}</p>
+        </div>
+        {{/if}}
+
+        <div class="divider"></div>
+
+        <div class="order-footer d-flex justify-content-between align-items-center px-4 py-3">
+          <span class="fw-semibold">Update Status</span>
+          <div class="d-flex gap-2 align-items-center">
+            <select class="form-select form-select-sm status-select"
+              data-order-id="{{this._id}}"
+              style="width: 190px; border-radius: 10px;">
+              <option value="Placed"
+                {{#if (eq this.status "Placed")}}selected{{/if}}>Placed</option>
+              <option value="Shipped"
+                {{#if (eq this.status "Shipped")}}selected{{/if}}>Shipped</option>
+              <option value="Delivered"
+                {{#if (eq this.status "Delivered")}}selected{{/if}}>Delivered</option>
+              <option value="Cancelled"
+                {{#if (eq this.status "Cancelled")}}selected{{/if}}>Cancelled</option>
+              <option value="Return Requested"
+                {{#if (eq this.status "Return Requested")}}selected{{/if}}>Return Requested</option>
+              <option value="Return Approved"
+                {{#if (eq this.status "Return Approved")}}selected{{/if}}>Return Approved</option>
+            </select>
+            <button class="btn btn-dark btn-sm px-3 update-btn"
+              data-order-id="{{this._id}}"
+              style="border-radius: 10px;">
+              Update
+            </button>
+          </div>
+        </div>
+
+      </div>
+      {{/each}}
+
+    {{else}}
+
+      <div class="text-center py-5 bg-white rounded-4 shadow-sm">
+        <i class="bi bi-bag-x" style="font-size: 60px; color: #ccc;"></i>
+        <h5 class="fw-bold text-muted mt-3">No orders yet</h5>
+      </div>
+
+    {{/if}}
+
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll('.update-btn').forEach(btn => {
+    btn.addEventListener('click', function () {
+      let orderId = this.dataset.orderId;
+      let select = document.querySelector(`.status-select[data-order-id="${orderId}"]`);
+      let status = select.value;
+
+      fetch('/admin/update-order-status', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orderId, status })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.status) {
+          location.reload();
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .header-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, #1e1e2f, #2b2b45);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .order-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s ease;
+  }
+
+  .order-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .order-header {
+    background: linear-gradient(135deg, #1e1e2f, #2b2b45);
+    padding: 16px 20px;
+    color: white;
+  }
+
+  .order-icon {
+    width: 38px;
+    height: 38px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .order-meta {
+    background: #f8f9fa;
+    border-bottom: 1px solid #eee;
+  }
+
+  .status-badge {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .status-badge.placed {
+    background: rgba(13, 110, 253, 0.15);
+    color: #0d6efd;
+  }
+
+  .status-badge.shipped {
+    background: rgba(255, 193, 7, 0.15);
+    color: #e6a800;
+  }
+
+  .status-badge.delivered {
+    background: rgba(25, 135, 84, 0.15);
+    color: #198754;
+  }
+
+  .status-badge.cancelled {
+    background: rgba(220, 53, 69, 0.15);
+    color: #dc3545;
+  }
+
+  .status-badge.return-requested {
+    background: rgba(255, 152, 0, 0.15);
+    color: #ff9800;
+  }
+
+  .status-badge.return-approved {
+    background: rgba(25, 135, 84, 0.15);
+    color: #198754;
+  }
+
+  .divider {
+    height: 1px;
+    background: #f0f0f0;
+  }
+
+  .product-dot {
+    width: 8px;
+    height: 8px;
+    background: #1e1e2f;
+    border-radius: 50%;
+  }
+
+  .qty-badge {
+    background: #f0f2f5;
+    color: #555;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .order-footer {
+    background: #f8f9fa;
+    border-top: 1px solid #eee;
+  }
+</style>

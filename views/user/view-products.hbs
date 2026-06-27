@@ -1,107 +1,695 @@
-<section class="py-5 bg-light">
+<!-- Hero Banner -->
+<section class="hero-banner">
   <div class="container">
-
-    <!-- Page Title -->
-    <div class="text-center mb-5">
-      <h2 class="fw-bold">🛍️ Explore Our Products</h2>
-      <p class="text-muted">Premium Collection Just For You</p>
-    </div>
-
-    <div class="row g-4">
-
-      {{#each products}}
-        <div class="col-md-4 col-lg-3">
-          <div class="card product-card h-100 shadow-sm border-0">
-
-            <!-- Product Image -->
-            <div class="product-image-wrapper">
-              <img
-                src="/product-images/{{this._id}}.jpg"
-                class="card-img-top"
-                alt="{{this.name}}"
-              />
-            </div>
-
-            <!-- Product Details -->
-            <div class="card-body text-center">
-
-              <h6 class="fw-semibold mb-1">
-                {{this.name}}
-              </h6>
-              <h5 class="text-success fw-bold mb-1">
-                ₹
-                {{this.price}}
-              </h5>
-
-              <span class="badge bg-secondary mb-2">
-                {{this.category}}
-              </span>
-
-              <p class="text-muted small">
-                {{this.description}}
-              </p>
-
-              <!-- Add to Cart Button -->
-              <button
-                class="btn btn-dark w-100 mt-2"
-                onclick="addToCart('{{this._id}}')"
-              >
-                <i class="bi bi-cart-plus me-1"></i>
-                Add to Cart
-              </button>
-
-            </div>
-
+    <div class="row align-items-center">
+      <div class="col-md-6">
+        <span class="hero-tag">New Arrivals 2025</span>
+        <h1 class="hero-title">Discover <br><span class="hero-highlight">Premium</span> Products</h1>
+        <p class="hero-sub">Handpicked collection of the finest products just for you.</p>
+        <a href="#shop" class="btn hero-btn">
+          Shop Now <i class="bi bi-arrow-right ms-2"></i>
+        </a>
+      </div>
+      <div class="col-md-6 text-center d-none d-md-block">
+        <div class="hero-stats d-flex justify-content-center gap-4 mt-4">
+          <div class="hero-stat-card">
+            <h3 class="fw-bold mb-0">500+</h3>
+            <small class="text-muted">Products</small>
+          </div>
+          <div class="hero-stat-card">
+            <h3 class="fw-bold mb-0">10K+</h3>
+            <small class="text-muted">Customers</small>
+          </div>
+          <div class="hero-stat-card">
+            <h3 class="fw-bold mb-0">4.9★</h3>
+            <small class="text-muted">Rating</small>
           </div>
         </div>
-      {{/each}}
+      </div>
+    </div>
+  </div>
+</section>
 
+<!-- Offer Cards -->
+<section class="py-4" style="background:#f0f2f5;">
+  <div class="container">
+    <div class="row g-3 mb-4">
+      <div class="col-md-4">
+        <div class="offer-card offer-card-1">
+          <div class="offer-badge">SALE</div>
+          <div class="offer-content">
+            <h5 class="fw-bold text-white mb-1">Mobile Covers</h5>
+            <p class="text-white-50 small mb-2">All brands & models</p>
+            <a href="#shop" class="btn offer-btn" onclick="switchTab('Mobile Cover')">Shop Now</a>
+          </div>
+          <div class="offer-icon"><i class="bi bi-phone"></i></div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="offer-card offer-card-2">
+          <div class="offer-badge">NEW</div>
+          <div class="offer-content">
+            <h5 class="fw-bold text-white mb-1">Gadgets</h5>
+            <p class="text-white-50 small mb-2">Earbuds, chargers & more</p>
+            <a href="#shop" class="btn offer-btn" onclick="switchTab('Gadgets')">Explore</a>
+          </div>
+          <div class="offer-icon"><i class="bi bi-headphones"></i></div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="offer-card offer-card-3">
+          <div class="offer-badge">HOT</div>
+          <div class="offer-content">
+            <h5 class="fw-bold text-white mb-1">Used Mobiles</h5>
+            <p class="text-white-50 small mb-2">Verified & certified phones</p>
+            <a href="#shop" class="btn offer-btn" onclick="switchTab('Used Mobile')">View All</a>
+          </div>
+          <div class="offer-icon"><i class="bi bi-phone-flip"></i></div>
+        </div>
+      </div>
     </div>
 
+    <!-- ===== SHOP SECTION ===== -->
+    <div id="shop">
+
+      <!-- Category Tabs -->
+      <div class="category-tabs mb-4">
+        <button class="tab-btn active" onclick="switchTab('all')">
+          <i class="bi bi-grid-3x3-gap me-1"></i> All
+        </button>
+        <button class="tab-btn" onclick="switchTab('Mobile Cover')">
+          <i class="bi bi-phone me-1"></i> Covers
+        </button>
+        <button class="tab-btn" onclick="switchTab('Screen Guard')">
+          <i class="bi bi-shield me-1"></i> Screen Guards
+        </button>
+        <button class="tab-btn" onclick="switchTab('Gadgets')">
+          <i class="bi bi-headphones me-1"></i> Gadgets
+        </button>
+        <button class="tab-btn" onclick="switchTab('Used Mobile')">
+          <i class="bi bi-phone-flip me-1"></i> Used Mobiles
+        </button>
+      </div>
+
+      <!-- ===== FILTER BAR ===== -->
+      <div class="filter-bar mb-4">
+
+        <!-- Search (always visible) -->
+        <div class="filter-row" id="searchRow">
+          <div class="search-wrapper">
+            <i class="bi bi-search search-icon"></i>
+            <input type="text" id="searchInput" class="form-control filter-input" placeholder="Search products..." oninput="applyFilters()" />
+          </div>
+          <select id="priceSort" class="form-select filter-input" onchange="applyFilters()">
+            <option value="default">Sort by Price</option>
+            <option value="low">Low to High</option>
+            <option value="high">High to Low</option>
+          </select>
+          <button class="clear-btn" onclick="clearFilters()">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+
+        <!-- Cover / Screen Guard filters -->
+        <div class="filter-row mt-2 d-none" id="coverFilters">
+          <select id="coverBrandFilter" class="form-select filter-input" onchange="loadModelFilter(); applyFilters()">
+            <option value="">All Brands</option>
+            <option>Samsung</option>
+            <option>Apple</option>
+            <option>OnePlus</option>
+            <option>Redmi</option>
+            <option>Realme</option>
+            <option>Oppo</option>
+            <option>Vivo</option>
+            <option>Nothing</option>
+            <option>Poco</option>
+            <option>iQOO</option>
+          </select>
+          <select id="coverModelFilter" class="form-select filter-input" onchange="applyFilters()">
+            <option value="">All Models</option>
+          </select>
+        </div>
+
+        <!-- Gadget filters -->
+        <div class="filter-row mt-2 d-none" id="gadgetFilters">
+          <select id="subCatFilter" class="form-select filter-input" onchange="applyFilters()">
+            <option value="">All Types</option>
+            <option>Earphones</option>
+            <option>Earbuds</option>
+            <option>Headphones</option>
+            <option>Charger</option>
+            <option>Cable</option>
+            <option>Power Bank</option>
+            <option>Speaker</option>
+            <option>Mobile Accessories</option>
+          </select>
+          <select id="gadgetBrandFilter" class="form-select filter-input" onchange="applyFilters()">
+            <option value="">All Brands</option>
+          </select>
+        </div>
+
+        <!-- Used Mobile filters -->
+        <div class="filter-row mt-2 d-none" id="usedFilters">
+          <select id="usedBrandFilter" class="form-select filter-input" onchange="applyFilters()">
+            <option value="">All Brands</option>
+            <option>Samsung</option>
+            <option>Apple</option>
+            <option>OnePlus</option>
+            <option>Redmi</option>
+            <option>Realme</option>
+            <option>Oppo</option>
+            <option>Vivo</option>
+            <option>Nothing</option>
+            <option>Poco</option>
+            <option>iQOO</option>
+          </select>
+          <select id="storageFilter" class="form-select filter-input" onchange="applyFilters()">
+            <option value="">All Storage</option>
+            <option>64GB</option>
+            <option>128GB</option>
+            <option>256GB</option>
+            <option>512GB</option>
+            <option>1TB</option>
+          </select>
+          <select id="conditionFilter" class="form-select filter-input" onchange="applyFilters()">
+            <option value="">All Conditions</option>
+            <option>Like New</option>
+            <option>Good</option>
+            <option>Fair</option>
+          </select>
+        </div>
+
+      </div>
+
+      <!-- No Results -->
+      <div id="noResults" class="text-center py-5 d-none">
+        <i class="bi bi-search" style="font-size:50px;color:#ccc;"></i>
+        <h5 class="text-muted mt-3">No products found</h5>
+        <p class="text-muted small">Try a different search or filter</p>
+      </div>
+
+      <!-- Products Grid -->
+      <div class="row g-4" id="productsGrid">
+
+        {{#each products}}
+          <div class="col-md-4 col-lg-3 product-item"
+            data-category="{{this.category}}"
+            data-name="{{this.name}}"
+            data-brand="{{this.brand}}"
+            data-model="{{this.model}}"
+            data-subcategory="{{this.subCategory}}"
+            data-storage="{{this.storage}}"
+            data-condition="{{this.condition}}"
+            data-price="{{#if this.discount}}{{this.finalPrice}}{{else}}{{this.price}}{{/if}}">
+
+            {{!-- Used Mobile Card --}}
+            {{#if (eq this.category "Used Mobile")}}
+              <div class="product-card used-card">
+                <div class="product-image-wrapper">
+                  <img src="/product-images/{{this._id}}.jpg" alt="{{this.name}}" onerror="this.src='/images/no-image.jpg'" />
+                  <span class="condition-tag condition-{{this.condition}}">{{this.condition}}</span>
+                  {{#if this.discount}}
+                    <span class="sale-tag">{{this.discount}}% OFF</span>
+                  {{/if}}
+                </div>
+                <div class="product-info">
+                  <span class="product-category">{{this.brand}}</span>
+                  <h6 class="product-name">{{this.name}}</h6>
+                  <div class="used-specs">
+                    {{#if this.storage}}<span class="spec-pill"><i class="bi bi-hdd me-1"></i>{{this.storage}}</span>{{/if}}
+                    {{#if this.ram}}<span class="spec-pill"><i class="bi bi-memory me-1"></i>{{this.ram}}</span>{{/if}}
+                    {{#if this.batteryHealth}}<span class="spec-pill"><i class="bi bi-battery-half me-1"></i>{{this.batteryHealth}}</span>{{/if}}
+                  </div>
+                  {{#if this.warranty}}
+                    <div class="mt-1">
+                      <span class="policy-tag warranty-tag"><i class="bi bi-shield-check"></i> {{this.warranty}}</span>
+                    </div>
+                  {{/if}}
+                  <div class="d-flex align-items-center justify-content-between mt-2">
+                    <div>
+                      {{#if this.discount}}
+                        <span class="product-price">₹{{this.finalPrice}}</span><br>
+                        <small class="text-decoration-line-through text-muted">₹{{this.price}}</small>
+                        <span class="badge bg-danger ms-1" style="font-size:10px;">{{this.discount}}% OFF</span>
+                      {{else}}
+                        <span class="product-price">₹{{this.price}}</span>
+                      {{/if}}
+                    </div>
+                    <button class="btn cart-btn" onclick="addToCart('{{this._id}}')">
+                      <i class="bi bi-cart-plus"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+            {{!-- Gadget Card --}}
+            {{else if (eq this.category "Gadgets")}}
+              <div class="product-card">
+                <div class="product-image-wrapper">
+                  <img src="/product-images/{{this._id}}.jpg" alt="{{this.name}}" onerror="this.src='/images/no-image.jpg'" />
+                  <div class="product-overlay">
+                    <button class="btn overlay-btn" onclick="addToCart('{{this._id}}')">
+                      <i class="bi bi-cart-plus me-1"></i> Add to Cart
+                    </button>
+                  </div>
+                  {{#if this.discount}}<span class="sale-tag">{{this.discount}}% OFF</span>{{/if}}
+                  {{#if this.subCategory}}<span class="type-tag">{{this.subCategory}}</span>{{/if}}
+                </div>
+                <div class="product-info">
+                  <span class="product-category">{{this.brand}}</span>
+                  <h6 class="product-name">{{this.name}}</h6>
+                  <p class="product-desc">{{this.description}}</p>
+                  <div class="used-specs">
+                    {{#if this.connectivity}}<span class="spec-pill"><i class="bi bi-bluetooth me-1"></i>{{this.connectivity}}</span>{{/if}}
+                    {{#if this.batteryLife}}<span class="spec-pill"><i class="bi bi-battery-charging me-1"></i>{{this.batteryLife}}</span>{{/if}}
+                    {{#if this.watt}}<span class="spec-pill"><i class="bi bi-lightning me-1"></i>{{this.watt}}</span>{{/if}}
+                  </div>
+                  <div class="d-flex align-items-center justify-content-between mt-2">
+                    <div>
+                      {{#if this.discount}}
+                        <span class="product-price">₹{{this.finalPrice}}</span><br>
+                        <small class="text-decoration-line-through text-muted">₹{{this.price}}</small>
+                        <span class="badge bg-danger ms-1" style="font-size:10px;">{{this.discount}}% OFF</span>
+                      {{else}}
+                        <span class="product-price">₹{{this.price}}</span>
+                      {{/if}}
+                    </div>
+                    <button class="btn cart-btn" onclick="addToCart('{{this._id}}')">
+                      <i class="bi bi-cart-plus"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+            {{!-- Cover / Screen Guard Card (default) --}}
+            {{else}}
+              <div class="product-card">
+                <div class="product-image-wrapper">
+                  <img src="/product-images/{{this._id}}.jpg" alt="{{this.name}}" onerror="this.src='/images/no-image.jpg'" />
+                  <div class="product-overlay">
+                    <button class="btn overlay-btn" onclick="addToCart('{{this._id}}')">
+                      <i class="bi bi-cart-plus me-1"></i> Add to Cart
+                    </button>
+                  </div>
+                  {{#if this.discount}}<span class="sale-tag">{{this.discount}}% OFF</span>{{/if}}
+                  {{#if this.type}}<span class="type-tag">{{this.type}}</span>{{/if}}
+                </div>
+                <div class="product-info">
+                  <span class="product-category">{{this.brand}} — {{this.model}}</span>
+                  <h6 class="product-name">{{this.name}}</h6>
+                  <p class="product-desc">{{this.description}}</p>
+                  <div class="policy-tags">
+                    {{#if this.returnPolicy}}
+                      {{#unless (eq this.returnPolicy "No Returns")}}
+                        <span class="policy-tag return-tag"><i class="bi bi-arrow-return-left"></i> {{this.returnPolicy}}</span>
+                      {{/unless}}
+                    {{/if}}
+                    {{#if this.warranty}}
+                      {{#unless (eq this.warranty "No Warranty")}}
+                        <span class="policy-tag warranty-tag"><i class="bi bi-shield-check"></i> {{this.warranty}}</span>
+                      {{/unless}}
+                    {{/if}}
+                  </div>
+                  <div class="d-flex align-items-center justify-content-between mt-2">
+                    <div>
+                      {{#if this.discount}}
+                        <span class="product-price">₹{{this.finalPrice}}</span><br>
+                        <small class="text-decoration-line-through text-muted">₹{{this.price}}</small>
+                        <span class="badge bg-danger ms-1" style="font-size:10px;">{{this.discount}}% OFF</span>
+                      {{else}}
+                        <span class="product-price">₹{{this.price}}</span>
+                      {{/if}}
+                    </div>
+                    <button class="btn cart-btn" onclick="addToCart('{{this._id}}')">
+                      <i class="bi bi-cart-plus"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            {{/if}}
+
+          </div>
+        {{/each}}
+
+      </div>
+    </div>
   </div>
 </section>
 
 <script>
-  function addToCart(proId) { fetch('/add-to-cart/' + proId) .then(response => {
-  if (response.redirected) { window.location.href = '/login'; return; } return
-  response.json(); }) .then(data => { if (data && data.status) {
-  location.reload(); } }) .catch(err => { console.log('Error:', err); }); }
+  // ===== PHONE MODELS =====
+  const phoneModels = {
+    Samsung: ["Galaxy S24 Ultra","Galaxy S24+","Galaxy S24","Galaxy S23 Ultra","Galaxy S23","Galaxy A55","Galaxy A35","Galaxy A15","Galaxy M34","Galaxy F55"],
+    Apple: ["iPhone 15 Pro Max","iPhone 15 Pro","iPhone 15 Plus","iPhone 15","iPhone 14 Pro Max","iPhone 14 Pro","iPhone 14","iPhone 13","iPhone 13 Pro","iPhone 12"],
+    OnePlus: ["OnePlus 12","OnePlus 12R","OnePlus 11","OnePlus Nord 4","OnePlus Nord CE4","OnePlus Nord CE3"],
+    Redmi: ["Redmi Note 13 Pro+","Redmi Note 13 Pro","Redmi Note 13","Redmi 13C","Redmi A3","Redmi Note 12 Pro"],
+    Realme: ["Realme GT 6","Realme 12 Pro+","Realme 12 Pro","Realme Narzo 70 Pro","Realme C65","Realme 12+"],
+    Oppo: ["Oppo Find X7","Oppo Reno 12 Pro","Oppo Reno 12","Oppo A3 Pro","Oppo A60","Oppo F27 Pro"],
+    Vivo: ["Vivo X100 Pro","Vivo V30 Pro","Vivo V30","Vivo T3 Pro","Vivo Y200","Vivo T3x"],
+    Nothing: ["Nothing Phone (2a) Plus","Nothing Phone (2a)","Nothing Phone (2)","Nothing Phone (1)"],
+    Poco: ["Poco F6 Pro","Poco F6","Poco X6 Pro","Poco X6","Poco M6 Pro","Poco C65"],
+    iQOO: ["iQOO 12","iQOO Neo 9 Pro","iQOO Neo 9","iQOO Z9 Pro","iQOO Z9","iQOO Z7 Pro"]
+  };
+
+  let currentTab = 'all';
+  const items = Array.from(document.querySelectorAll('.product-item'));
+
+  // ===== BUILD GADGET BRAND FILTER =====
+  function buildGadgetBrands() {
+    const brands = new Set();
+    items.filter(i => i.dataset.category === 'Gadgets').forEach(i => {
+      if (i.dataset.brand) brands.add(i.dataset.brand);
+    });
+    const sel = document.getElementById('gadgetBrandFilter');
+    sel.innerHTML = '<option value="">All Brands</option>';
+    brands.forEach(b => {
+      const opt = document.createElement('option');
+      opt.value = b; opt.textContent = b;
+      sel.appendChild(opt);
+    });
+  }
+  buildGadgetBrands();
+
+  // ===== SWITCH TAB =====
+  function switchTab(tab) {
+    currentTab = tab;
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+
+    const tabMap = { 'all': 0, 'Mobile Cover': 1, 'Screen Guard': 2, 'Gadgets': 3, 'Used Mobile': 4 };
+    document.querySelectorAll('.tab-btn')[tabMap[tab] ?? 0].classList.add('active');
+
+    // show/hide filter rows
+    document.getElementById('coverFilters').classList.add('d-none');
+    document.getElementById('gadgetFilters').classList.add('d-none');
+    document.getElementById('usedFilters').classList.add('d-none');
+
+    if (tab === 'Mobile Cover' || tab === 'Screen Guard') {
+      document.getElementById('coverFilters').classList.remove('d-none');
+    } else if (tab === 'Gadgets') {
+      document.getElementById('gadgetFilters').classList.remove('d-none');
+    } else if (tab === 'Used Mobile') {
+      document.getElementById('usedFilters').classList.remove('d-none');
+    }
+
+    applyFilters();
+    document.getElementById('shop').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // ===== LOAD MODEL FILTER =====
+  function loadModelFilter() {
+    const brand = document.getElementById('coverBrandFilter').value;
+    const models = phoneModels[brand] || [];
+    const sel = document.getElementById('coverModelFilter');
+    sel.innerHTML = '<option value="">All Models</option>';
+    models.forEach(m => {
+      const opt = document.createElement('option');
+      opt.value = m; opt.textContent = m;
+      sel.appendChild(opt);
+    });
+  }
+
+  // ===== APPLY FILTERS =====
+  function applyFilters() {
+    const search = document.getElementById('searchInput').value.toLowerCase();
+    const sort = document.getElementById('priceSort').value;
+
+    // category-specific filter values
+    const coverBrand = document.getElementById('coverBrandFilter').value;
+    const coverModel = document.getElementById('coverModelFilter').value;
+    const subCat = document.getElementById('subCatFilter').value;
+    const gadgetBrand = document.getElementById('gadgetBrandFilter').value;
+    const usedBrand = document.getElementById('usedBrandFilter').value;
+    const storage = document.getElementById('storageFilter').value;
+    const condition = document.getElementById('conditionFilter').value;
+
+    let filtered = items.filter(item => {
+      const cat = item.dataset.category;
+
+      // tab filter
+      if (currentTab !== 'all' && cat !== currentTab) return false;
+
+      // search
+      if (search && !item.dataset.name.toLowerCase().includes(search)) return false;
+
+      // cover/screen guard filters
+      if (cat === 'Mobile Cover' || cat === 'Screen Guard') {
+        if (coverBrand && item.dataset.brand !== coverBrand) return false;
+        if (coverModel && item.dataset.model !== coverModel) return false;
+      }
+
+      // gadget filters
+      if (cat === 'Gadgets') {
+        if (subCat && item.dataset.subcategory !== subCat) return false;
+        if (gadgetBrand && item.dataset.brand !== gadgetBrand) return false;
+      }
+
+      // used mobile filters
+      if (cat === 'Used Mobile') {
+        if (usedBrand && item.dataset.brand !== usedBrand) return false;
+        if (storage && item.dataset.storage !== storage) return false;
+        if (condition && item.dataset.condition !== condition) return false;
+      }
+
+      return true;
+    });
+
+    // sort
+    if (sort === 'low') {
+      filtered.sort((a, b) => parseFloat(a.dataset.price) - parseFloat(b.dataset.price));
+    } else if (sort === 'high') {
+      filtered.sort((a, b) => parseFloat(b.dataset.price) - parseFloat(a.dataset.price));
+    }
+
+    // render
+    const grid = document.getElementById('productsGrid');
+    items.forEach(i => i.classList.add('d-none'));
+
+    if (filtered.length === 0) {
+      document.getElementById('noResults').classList.remove('d-none');
+    } else {
+      document.getElementById('noResults').classList.add('d-none');
+      filtered.forEach(i => { i.classList.remove('d-none'); grid.appendChild(i); });
+    }
+  }
+
+  // ===== CLEAR FILTERS =====
+  function clearFilters() {
+    document.getElementById('searchInput').value = '';
+    document.getElementById('priceSort').value = 'default';
+    document.getElementById('coverBrandFilter').value = '';
+    document.getElementById('coverModelFilter').innerHTML = '<option value="">All Models</option>';
+    document.getElementById('subCatFilter').value = '';
+    document.getElementById('gadgetBrandFilter').value = '';
+    document.getElementById('usedBrandFilter').value = '';
+    document.getElementById('storageFilter').value = '';
+    document.getElementById('conditionFilter').value = '';
+    applyFilters();
+  }
+
+  // ===== ADD TO CART =====
+  function addToCart(proId) {
+    fetch('/add-to-cart/' + proId)
+      .then(res => {
+        if (res.redirected) { window.location.href = '/login'; return; }
+        return res.json();
+      })
+      .then(data => { if (data && data.status) location.reload(); })
+      .catch(err => console.log('Error:', err));
+  }
 </script>
 
 <style>
-  .product-card {
+  /* ===== HERO ===== */
+  .hero-banner {
+    background: linear-gradient(135deg, #1e1e2f, #2b2b45);
+    padding: 80px 0;
+    color: white;
+  }
+  .hero-tag {
+    background: rgba(255,193,7,0.2);
+    color: #ffc107;
+    padding: 6px 14px;
     border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .hero-title { font-size: 48px; font-weight: 800; margin-top: 16px; line-height: 1.2; }
+  .hero-highlight {
+    background: linear-gradient(135deg, #ff9800, #ff5722);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero-sub { color: #aaa; margin-top: 12px; font-size: 16px; }
+  .hero-btn {
+    background: linear-gradient(135deg, #ff9800, #ff5722);
+    color: white; border: none;
+    padding: 12px 28px; border-radius: 30px;
+    font-weight: bold; margin-top: 20px;
     transition: all 0.3s ease;
   }
-
-  .product-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+  .hero-btn:hover { transform: translateY(-3px); color: white; box-shadow: 0 10px 25px rgba(255,152,0,0.4); }
+  .hero-stat-card {
+    background: rgba(255,255,255,0.08);
+    border-radius: 16px; padding: 20px 24px;
+    text-align: center; color: white;
   }
 
-  .product-image-wrapper {
-    height: 220px;
+  /* ===== OFFER CARDS ===== */
+  .offer-card {
+    border-radius: 20px; padding: 28px;
+    position: relative; overflow: hidden;
+    min-height: 150px; display: flex;
+    align-items: center; transition: transform 0.3s ease; cursor: pointer;
+  }
+  .offer-card:hover { transform: translateY(-6px); }
+  .offer-card:hover .offer-icon { transform: scale(1.2) rotate(10deg); }
+  .offer-card-1 { background: linear-gradient(135deg, #ff416c, #ff4b2b); }
+  .offer-card-2 { background: linear-gradient(135deg, #4776e6, #8e54e9); }
+  .offer-card-3 { background: linear-gradient(135deg, #11998e, #38ef7d); }
+  .offer-badge {
+    position: absolute; top: 14px; right: 14px;
+    background: rgba(255,255,255,0.25); color: white;
+    padding: 3px 10px; border-radius: 20px;
+    font-size: 11px; font-weight: 700;
+  }
+  .offer-icon {
+    position: absolute; right: 20px; bottom: 8px;
+    font-size: 65px; color: rgba(255,255,255,0.15);
+    transition: transform 0.3s ease;
+  }
+  .offer-btn {
+    background: rgba(255,255,255,0.25); color: white;
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 20px; padding: 5px 16px;
+    font-size: 13px; font-weight: 600;
+    transition: all 0.3s ease;
+  }
+  .offer-btn:hover { background: white; color: #333; }
+
+  /* ===== CATEGORY TABS ===== */
+  .category-tabs {
+    display: flex; gap: 10px;
+    flex-wrap: wrap;
+  }
+  .tab-btn {
+    background: white; border: 1.5px solid #e0e0e0;
+    border-radius: 30px; padding: 8px 20px;
+    font-size: 14px; font-weight: 500;
+    color: #555; cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .tab-btn:hover { border-color: #ff9800; color: #ff9800; }
+  .tab-btn.active {
+    background: linear-gradient(135deg, #ff9800, #ff5722);
+    border-color: transparent; color: white;
+    box-shadow: 0 4px 15px rgba(255,152,0,0.35);
+  }
+
+  /* ===== FILTER BAR ===== */
+  .filter-bar {
+    background: white; padding: 16px 20px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  }
+  .filter-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .filter-input {
+    border-radius: 10px; border: 1px solid #e0e0e0;
+    padding: 8px 12px; font-size: 13px;
+    flex: 1; min-width: 140px;
+  }
+  .filter-input:focus { border-color: #ff9800; box-shadow: 0 0 0 3px rgba(255,152,0,0.15); outline: none; }
+  .search-wrapper { position: relative; flex: 2; min-width: 200px; }
+  .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #aaa; }
+  .search-wrapper .filter-input { padding-left: 36px; width: 100%; }
+  .clear-btn {
+    background: #f8f9fa; border: 1px solid #e0e0e0;
+    border-radius: 10px; padding: 8px 14px;
+    color: #666; cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .clear-btn:hover { background: #fee; border-color: #f66; color: #f66; }
+
+  /* ===== PRODUCT CARDS ===== */
+  .product-card {
+    background: white; border-radius: 20px;
     overflow: hidden;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    transition: all 0.3s ease; height: 100%;
+  }
+  .product-card:hover { transform: translateY(-6px); box-shadow: 0 12px 30px rgba(0,0,0,0.12); }
+  .product-image-wrapper { position: relative; height: 200px; overflow: hidden; }
+  .product-image-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+  .product-card:hover .product-image-wrapper img { transform: scale(1.08); }
+  .product-overlay {
+    position: absolute; inset: 0;
+    background: rgba(0,0,0,0.45);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity 0.3s ease;
+  }
+  .product-card:hover .product-overlay { opacity: 1; }
+  .overlay-btn {
+    background: white; color: #1e1e2f; border: none;
+    padding: 10px 20px; border-radius: 30px;
+    font-weight: 600; font-size: 14px;
+    transition: all 0.2s ease;
+  }
+  .overlay-btn:hover { background: #ff9800; color: white; }
+
+  /* tags */
+  .sale-tag {
+    position: absolute; top: 10px; left: 10px;
+    background: linear-gradient(135deg, #ff416c, #ff4b2b);
+    color: white; padding: 3px 10px;
+    border-radius: 20px; font-size: 11px; font-weight: 700;
+  }
+  .type-tag {
+    position: absolute; bottom: 10px; left: 10px;
+    background: rgba(0,0,0,0.6); color: white;
+    padding: 3px 10px; border-radius: 20px;
+    font-size: 11px; font-weight: 600;
+  }
+  .condition-tag {
+    position: absolute; top: 10px; right: 10px;
+    padding: 3px 10px; border-radius: 20px;
+    font-size: 11px; font-weight: 700;
+  }
+  .condition-Like\ New { background: #d4edda; color: #155724; }
+  .condition-Good { background: #fff3cd; color: #856404; }
+  .condition-Fair { background: #f8d7da; color: #721c24; }
+
+  .product-info { padding: 14px; }
+  .product-category { font-size: 11px; color: #aaa; text-transform: uppercase; font-weight: 600; letter-spacing: 1px; }
+  .product-name { font-weight: 700; margin: 4px 0; font-size: 14px; color: #1e1e2f; }
+  .product-desc { font-size: 12px; color: #999; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .product-price { font-size: 17px; font-weight: 800; color: #ff5722; }
+
+  /* spec pills */
+  .used-specs { display: flex; flex-wrap: wrap; gap: 4px; margin: 6px 0; }
+  .spec-pill {
+    background: #f0f2f5; color: #555;
+    font-size: 10px; font-weight: 600;
+    padding: 3px 8px; border-radius: 20px;
+    display: inline-flex; align-items: center;
   }
 
-  .product-image-wrapper img {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-    transition: transform 0.4s ease;
+  /* policy tags */
+  .policy-tags { display: flex; flex-wrap: wrap; gap: 4px; margin: 6px 0; }
+  .policy-tag {
+    font-size: 10px; font-weight: 600;
+    padding: 3px 8px; border-radius: 20px;
+    display: inline-flex; align-items: center; gap: 3px;
   }
+  .return-tag { background: rgba(13,110,253,0.1); color: #0d6efd; }
+  .warranty-tag { background: rgba(25,135,84,0.1); color: #198754; }
 
-  .product-card:hover img {
-    transform: scale(1.05);
+  .cart-btn {
+    background: #1e1e2f; color: white; border: none;
+    width: 36px; height: 36px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s ease;
   }
+  .cart-btn:hover { background: #ff9800; color: white; transform: scale(1.1); }
 
-  .btn-dark {
-    border-radius: 12px;
-  }
-
-  .badge {
-    border-radius: 8px;
-  }
+  /* used card accent */
+  .used-card { border-top: 3px solid #11998e; }
 </style>

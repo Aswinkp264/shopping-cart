@@ -1,0 +1,493 @@
+<section class="py-5" style="background:#f4f6f9; min-height: 80vh;">
+
+  <div class="container">
+
+    <!-- Header -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+      <div>
+        <h4 class="fw-bold mb-1">
+          <i class="bi bi-tools me-2"></i>
+          My Service Bookings
+        </h4>
+
+        <small class="text-muted">
+          Track all your repair requests
+        </small>
+      </div>
+
+      <a
+        href="/book-service"
+        class="btn btn-warning rounded-pill px-4"
+      >
+        <i class="bi bi-plus-circle me-1"></i>
+        New Booking
+      </a>
+
+    </div>
+
+    {{#if bookings.length}}
+
+      <div class="row g-4">
+
+        {{#each bookings}}
+
+          <div class="col-lg-6">
+
+            <div class="booking-card">
+
+              <!-- TOP -->
+
+              <div
+                class="d-flex justify-content-between align-items-start mb-3"
+              >
+
+                <div>
+
+                  <h5 class="fw-bold mb-1">
+                    {{this.deviceBrand}}
+                    {{this.deviceModel}}
+                  </h5>
+
+                  <small class="text-muted">
+                    {{this.serviceType}}
+                  </small>
+
+                </div>
+
+                <!-- STATUS BADGE -->
+
+                <span
+                  class="status-badge status-{{this.status}}"
+                >
+                  {{this.status}}
+                </span>
+
+              </div>
+
+              <!-- TRACKER -->
+
+              <div class="service-tracker">
+
+                <div
+                  class="track-step
+                  {{#if
+                    (or
+                      (eq this.status 'Pending')
+                      (eq this.status 'Accepted')
+                      (eq this.status 'Technician Assigned')
+                      (eq this.status 'In Progress')
+                      (eq this.status 'Ready for Delivery')
+                      (eq this.status 'Completed')
+                    )
+                  }}
+                    active
+                  {{/if}}"
+                >
+                  Pending
+                </div>
+
+                <div
+                  class="track-step
+                  {{#if
+                    (or
+                      (eq this.status 'Accepted')
+                      (eq this.status 'Technician Assigned')
+                      (eq this.status 'In Progress')
+                      (eq this.status 'Ready for Delivery')
+                      (eq this.status 'Completed')
+                    )
+                  }}
+                    active
+                  {{/if}}"
+                >
+                  Accepted
+                </div>
+
+                <div
+                  class="track-step
+                  {{#if
+                    (or
+                      (eq this.status 'Technician Assigned')
+                      (eq this.status 'In Progress')
+                      (eq this.status 'Ready for Delivery')
+                      (eq this.status 'Completed')
+                    )
+                  }}
+                    active
+                  {{/if}}"
+                >
+                  Technician Assigned
+                </div>
+
+                <div
+                  class="track-step
+                  {{#if
+                    (or
+                      (eq this.status 'In Progress')
+                      (eq this.status 'Ready for Delivery')
+                      (eq this.status 'Completed')
+                    )
+                  }}
+                    active
+                  {{/if}}"
+                >
+                  In Progress
+                </div>
+
+                <div
+                  class="track-step
+                  {{#if
+                    (or
+                      (eq this.status 'Ready for Delivery')
+                      (eq this.status 'Completed')
+                    )
+                  }}
+                    active
+                  {{/if}}"
+                >
+                  Ready
+                </div>
+
+                <div
+                  class="track-step
+                  {{#if (eq this.status 'Completed')}}
+                    active
+                  {{/if}}"
+                >
+                  Completed
+                </div>
+
+              </div>
+
+              <!-- PROBLEM -->
+
+              <div class="problem-box mt-4">
+
+                <div class="small fw-semibold mb-1">
+                  Problem Description
+                </div>
+
+                <p class="text-muted small mb-0">
+                  {{this.problem}}
+                </p>
+
+              </div>
+
+              <!-- META -->
+
+              <div class="booking-meta mt-4">
+
+                <div class="meta-item">
+                  <i class="bi bi-calendar3"></i>
+                  {{this.preferredDate}}
+                </div>
+
+                <div class="meta-item">
+                  <i class="bi bi-clock"></i>
+                  {{this.timeSlot}}
+                </div>
+
+              </div>
+
+              <div class="booking-meta mt-2">
+
+                <div class="meta-item">
+                  <i class="bi bi-geo-alt"></i>
+                  {{this.visitType}}
+                </div>
+
+                {{#if this.estimatedCost}}
+
+                  <div class="meta-item text-success fw-bold">
+                    <i class="bi bi-currency-rupee"></i>
+                    ₹ {{this.estimatedCost}}
+                  </div>
+
+                {{/if}}
+
+              </div>
+
+              <!-- ADDRESS -->
+
+              {{#if this.address}}
+
+                <div class="address-box mt-4">
+
+                  <div class="fw-semibold mb-2">
+                    <i class="bi bi-house-door me-1"></i>
+                    Pickup Address
+                  </div>
+
+                  <div class="small text-muted">
+
+                    {{this.addressType}}<br />
+
+                    {{this.address}}<br />
+
+                    {{this.landmark}}<br />
+
+                    {{this.district}},
+                    {{this.state}}
+                    -
+                    {{this.pincode}}
+
+                  </div>
+
+                </div>
+
+              {{/if}}
+
+              <!-- MAP -->
+
+              {{#if this.latitude}}
+
+                <div class="mt-3">
+
+                  <a
+                    href="https://www.google.com/maps?q={{this.latitude}},{{this.longitude}}"
+                    target="_blank"
+                    class="btn btn-sm btn-dark rounded-pill"
+                  >
+                    <i class="bi bi-geo-alt-fill me-1"></i>
+                    View Location
+                  </a>
+
+                </div>
+
+              {{/if}}
+
+              <!-- ACTION BUTTONS -->
+
+              <div class="mt-4 d-flex gap-2 flex-wrap">
+
+                {{#unless (eq this.status "Cancelled")}}
+
+                  {{#unless (eq this.status "Completed")}}
+
+                    <button
+                      class="btn btn-outline-danger btn-sm rounded-pill"
+                      onclick="cancelBooking('{{this._id}}')"
+                    >
+                      <i class="bi bi-x-circle me-1"></i>
+                      Cancel Booking
+                    </button>
+
+                  {{/unless}}
+
+                {{/unless}}
+
+              </div>
+
+            </div>
+
+          </div>
+
+        {{/each}}
+
+      </div>
+
+    {{else}}
+
+      <!-- EMPTY -->
+
+      <div class="empty-box text-center">
+
+        <i class="bi bi-tools empty-icon"></i>
+
+        <h5 class="mt-3">
+          No service bookings yet
+        </h5>
+
+        <p class="text-muted">
+          Book your first repair service now
+        </p>
+
+        <a
+          href="/book-service"
+          class="btn btn-warning rounded-pill px-4"
+        >
+          Book a Service
+        </a>
+
+      </div>
+
+    {{/if}}
+
+  </div>
+
+</section>
+
+<style>
+
+  .booking-card{
+    background:white;
+    border-radius:22px;
+    padding:24px;
+    box-shadow:
+      0 8px 30px rgba(0,0,0,0.06);
+    height:100%;
+    transition:0.3s ease;
+  }
+
+  .booking-card:hover{
+    transform:translateY(-4px);
+  }
+
+  .status-badge{
+    font-size:11px;
+    font-weight:700;
+    padding:6px 14px;
+    border-radius:30px;
+    white-space:nowrap;
+  }
+
+  .status-Pending{
+    background:#fff3cd;
+    color:#856404;
+  }
+
+  .status-Accepted{
+    background:#dbeafe;
+    color:#1d4ed8;
+  }
+
+  .status-Technician\ Assigned{
+    background:#ede9fe;
+    color:#6d28d9;
+  }
+
+  .status-In\ Progress{
+    background:#cffafe;
+    color:#0f766e;
+  }
+
+  .status-Ready\ for\ Delivery{
+    background:#e5e7eb;
+    color:#111827;
+  }
+
+  .status-Completed{
+    background:#d1fae5;
+    color:#065f46;
+  }
+
+  .status-Cancelled{
+    background:#fee2e2;
+    color:#991b1b;
+  }
+
+  .service-tracker{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:12px;
+  }
+
+  .track-step{
+    padding:7px 12px;
+    border-radius:20px;
+    background:#e9ecef;
+    color:#666;
+    font-size:11px;
+    font-weight:700;
+  }
+
+  .track-step.active{
+    background:
+      linear-gradient(
+        135deg,
+        #28a745,
+        #20c997
+      );
+    color:white;
+  }
+
+  .problem-box{
+    background:#f8f9fa;
+    border-radius:14px;
+    padding:14px;
+  }
+
+  .booking-meta{
+    display:flex;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+
+  .meta-item{
+    font-size:13px;
+    color:#666;
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+
+  .address-box{
+    background:#fff8e1;
+    border-radius:14px;
+    padding:16px;
+    border:1px dashed #ffc107;
+  }
+
+  .empty-box{
+    background:white;
+    border-radius:24px;
+    padding:70px 20px;
+    box-shadow:
+      0 8px 30px rgba(0,0,0,0.05);
+  }
+
+  .empty-icon{
+    font-size:60px;
+    color:#ccc;
+  }
+
+</style>
+
+<script>
+
+  async function cancelBooking(id){
+
+    const ok =
+      confirm("Cancel this booking?");
+
+    if(!ok) return;
+
+    try{
+
+      const response =
+        await fetch(
+          "/cancel-booking/" + id,
+          {
+            method:"POST"
+          }
+        );
+
+      const data =
+        await response.json();
+
+      if(data.status){
+
+        alert("Booking cancelled");
+
+        location.reload();
+
+      }else{
+
+        alert("Failed to cancel booking");
+
+      }
+
+    }catch(err){
+
+      console.log(err);
+
+      alert("Something went wrong");
+
+    }
+
+  }
+
+</script>

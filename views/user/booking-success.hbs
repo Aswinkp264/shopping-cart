@@ -1,0 +1,40 @@
+<div class="success-bg">
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-6 text-center">
+        <div class="success-card">
+          <i class="bi bi-check-circle-fill success-icon"></i>
+          <h3 class="fw-bold mt-3 text-white">Booking Confirmed!</h3>
+          <p class="text-white-50">We've received your service request. Our team will contact you shortly to confirm the details.</p>
+          <div class="d-flex justify-content-center gap-3 mt-4">
+            <a href="/my-bookings" class="btn btn-outline-light rounded-pill px-4">View My Bookings</a>
+            <a href="/" class="btn success-btn rounded-pill px-4">Continue Shopping</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .success-bg {
+    min-height: 80vh;
+    background: linear-gradient(135deg, #1e1e2f, #2b2b45);
+    display: flex;
+    align-items: center;
+  }
+  .success-card {
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 50px 40px;
+  }
+  .success-icon { font-size: 70px; color: #11998e; }
+  .success-btn {
+    background: linear-gradient(135deg, #ff9800, #ff5722);
+    color: white;
+    border: none;
+  }
+  .success-btn:hover { color: white; transform: translateY(-2px); }
+</style>

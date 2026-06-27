@@ -1,0 +1,444 @@
+<section class="py-5" style="background: #f0f2f5; min-height: 100vh;">
+  <div class="container">
+
+    <div class="d-flex align-items-center mb-4">
+      <div class="header-icon me-3">
+        <i class="bi bi-bag-check fs-4 text-white"></i>
+      </div>
+      <div>
+        <h3 class="fw-bold mb-0">My Orders</h3>
+        <small class="text-muted">Track and manage your orders</small>
+      </div>
+    </div>
+
+    {{#if orders}}
+
+      {{#each orders}}
+      <div class="order-card mb-4">
+
+        <div class="order-header d-flex justify-content-between align-items-center">
+          <div class="d-flex align-items-center gap-3">
+            <div class="order-icon">
+              <i class="bi bi-box-seam text-white"></i>
+            </div>
+            <div>
+              <small class="text-muted d-block">Order ID</small>
+              <span class="fw-semibold" style="font-size: 13px; color: #e0e0e0;">
+                {{this._id}}
+              </span>
+            </div>
+          </div>
+
+          {{#if (eq this.status "Placed")}}
+            <span class="status-badge placed">
+              <i class="bi bi-clock me-1"></i> Placed
+            </span>
+          {{else if (eq this.status "Shipped")}}
+            <span class="status-badge shipped">
+              <i class="bi bi-truck me-1"></i> Shipped
+            </span>
+          {{else if (eq this.status "Delivered")}}
+            <span class="status-badge delivered">
+              <i class="bi bi-check-circle me-1"></i> Delivered
+            </span>
+          {{else if (eq this.status "Cancelled")}}
+            <span class="status-badge cancelled">
+              <i class="bi bi-x-circle me-1"></i> Cancelled
+            </span>
+          {{else if (eq this.status "Return Requested")}}
+            <span class="status-badge return-requested">
+              <i class="bi bi-arrow-return-left me-1"></i> Return Requested
+            </span>
+          {{else if (eq this.status "Return Approved")}}
+            <span class="status-badge return-approved">
+              <i class="bi bi-check2-circle me-1"></i> Return Approved
+            </span>
+          {{else}}
+            <span class="status-badge placed">{{this.status}}</span>
+          {{/if}}
+        </div>
+
+        <div class="order-meta d-flex gap-4 px-4 py-2 flex-wrap">
+          <div>
+            <small class="text-muted">Date</small>
+            <p class="fw-semibold mb-0 small">{{this.date}}</p>
+          </div>
+          <div>
+            <small class="text-muted">Payment</small>
+            <p class="fw-semibold mb-0 small">{{this.paymentMethod}}</p>
+          </div>
+          <div>
+            <small class="text-muted">Expected Delivery</small>
+            <p class="fw-semibold mb-0 small text-success">{{this.deliveryDate}}</p>
+          </div>
+          <div>
+            <small class="text-muted">Total</small>
+            <p class="fw-bold mb-0 small text-success">₹ {{this.totalAmount}}</p>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="px-4 py-3">
+          <small class="text-muted fw-semibold d-block mb-2">ITEMS ORDERED</small>
+          {{#each this.products}}
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <div class="d-flex align-items-center gap-2">
+              <div class="product-dot"></div>
+              <span class="fw-semibold small">{{this.name}}</span>
+              <span class="qty-badge">x{{this.quantity}}</span>
+            </div>
+            <span class="fw-semibold small">₹ {{this.subtotal}}</span>
+          </div>
+          {{/each}}
+        </div>
+
+        <!-- Show return reason if exists -->
+        {{#if this.returnReason}}
+        <div class="px-4 py-2" style="background: #fff8f0; border-top: 1px solid #ffe0c0;">
+          <small class="text-danger fw-semibold">
+            <i class="bi bi-exclamation-circle me-1"></i> Return Reason:
+          </small>
+          <p class="small text-muted mb-0 mt-1">{{this.returnReason}}</p>
+        </div>
+        {{/if}}
+
+        <!-- Order Footer -->
+        <div class="order-footer d-flex justify-content-between align-items-center px-4 py-3">
+          <span class="fw-bold">Total Amount</span>
+          <div class="d-flex align-items-center gap-3">
+            <span class="fw-bold fs-5 text-success">₹ {{this.totalAmount}}</span>
+
+            {{#if (eq this.status "Delivered")}}
+              <button class="btn btn-outline-danger btn-sm px-3"
+                style="border-radius: 10px;"
+                onclick="openReturnModal('{{this._id}}')">
+                <i class="bi bi-arrow-return-left me-1"></i> Return
+              </button>
+            {{/if}}
+
+            {{#if (eq this.status "Return Requested")}}
+              <span class="badge bg-warning text-dark px-3 py-2">
+                <i class="bi bi-clock me-1"></i> Return Requested
+              </span>
+            {{/if}}
+
+            {{#if (eq this.status "Return Approved")}}
+              <span class="badge bg-success px-3 py-2">
+                <i class="bi bi-check-circle me-1"></i> Return Approved
+              </span>
+            {{/if}}
+
+          </div>
+        </div>
+
+      </div>
+      {{/each}}
+
+    {{else}}
+
+      <div class="empty-orders text-center py-5">
+        <div class="empty-icon mb-3">
+          <i class="bi bi-bag-x" style="font-size: 60px; color: #ccc;"></i>
+        </div>
+        <h5 class="fw-bold text-muted">No orders yet</h5>
+        <p class="text-muted">Looks like you haven't placed any orders.</p>
+        <a href="/" class="btn btn-dark px-4 mt-2">Shop Now</a>
+      </div>
+
+    {{/if}}
+
+  </div>
+</section>
+
+<!-- Return Reason Modal -->
+<div class="modal fade" id="returnModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="border-radius: 20px; border: none;">
+
+      <div class="modal-header border-0 pb-0">
+        <h5 class="modal-title fw-bold">Select Return Reason</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body px-4">
+        <p class="text-muted small mb-3">Please select the reason for your return request:</p>
+
+        <div class="reason-list">
+
+          <label class="reason-option">
+            <input type="radio" name="returnReason"
+              value="The product received is not working as expected. It appears to be defective and does not match the quality shown in the description. I would like a return and refund/replacement.">
+            <div class="reason-card">
+              <span class="reason-icon">⚙️</span>
+              <div>
+                <p class="fw-semibold mb-0 small">Defective Product</p>
+                <p class="text-muted mb-0" style="font-size: 11px;">Not working as expected</p>
+              </div>
+            </div>
+          </label>
+
+          <label class="reason-option">
+            <input type="radio" name="returnReason"
+              value="The product arrived damaged and cannot be used properly. Please arrange a return and refund/replacement.">
+            <div class="reason-card">
+              <span class="reason-icon">📦</span>
+              <div>
+                <p class="fw-semibold mb-0 small">Damaged Product</p>
+                <p class="text-muted mb-0" style="font-size: 11px;">Arrived damaged</p>
+              </div>
+            </div>
+          </label>
+
+          <label class="reason-option">
+            <input type="radio" name="returnReason"
+              value="I received a different product than what I ordered. Kindly process the return and provide a refund/replacement.">
+            <div class="reason-card">
+              <span class="reason-icon">🔄</span>
+              <div>
+                <p class="fw-semibold mb-0 small">Wrong Product</p>
+                <p class="text-muted mb-0" style="font-size: 11px;">Different from what I ordered</p>
+              </div>
+            </div>
+          </label>
+
+          <label class="reason-option">
+            <input type="radio" name="returnReason"
+              value="The quality of the product is poor and does not meet my expectations based on the product description. I would like to return it.">
+            <div class="reason-card">
+              <span class="reason-icon">⭐</span>
+              <div>
+                <p class="fw-semibold mb-0 small">Quality Issue</p>
+                <p class="text-muted mb-0" style="font-size: 11px;">Poor quality product</p>
+              </div>
+            </div>
+          </label>
+
+          <label class="reason-option">
+            <input type="radio" name="returnReason"
+              value="The product is not suitable for my requirements and I would like to return it. Please process the return request.">
+            <div class="reason-card">
+              <span class="reason-icon">🔁</span>
+              <div>
+                <p class="fw-semibold mb-0 small">Not Suitable</p>
+                <p class="text-muted mb-0" style="font-size: 11px;">Does not meet my requirements</p>
+              </div>
+            </div>
+          </label>
+
+        </div>
+
+        <div id="reasonError" class="text-danger small mt-2 d-none">
+          Please select a reason
+        </div>
+
+      </div>
+
+      <div class="modal-footer border-0 pt-0 px-4 pb-4">
+        <button type="button" class="btn btn-outline-secondary px-4"
+          data-bs-dismiss="modal" style="border-radius: 10px;">
+          Cancel
+        </button>
+        <button type="button" class="btn btn-danger px-4"
+          onclick="submitReturn()" style="border-radius: 10px;">
+          <i class="bi bi-arrow-return-left me-1"></i> Submit Return
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  let currentOrderId = null;
+
+  function openReturnModal(orderId) {
+    currentOrderId = orderId;
+    document.querySelectorAll('input[name="returnReason"]').forEach(r => r.checked = false);
+    document.querySelectorAll('.reason-card').forEach(c => c.classList.remove('selected'));
+    document.getElementById('reasonError').classList.add('d-none');
+    new bootstrap.Modal(document.getElementById('returnModal')).show();
+  }
+
+  document.querySelectorAll('input[name="returnReason"]').forEach(radio => {
+    radio.addEventListener('change', function () {
+      document.querySelectorAll('.reason-card').forEach(c => c.classList.remove('selected'));
+      this.closest('.reason-option').querySelector('.reason-card').classList.add('selected');
+    });
+  });
+
+  function submitReturn() {
+    let selected = document.querySelector('input[name="returnReason"]:checked');
+    if (!selected) {
+      document.getElementById('reasonError').classList.remove('d-none');
+      return;
+    }
+
+    fetch('/return-order/' + currentOrderId, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ reason: selected.value })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.status) {
+        location.reload();
+      }
+    });
+  }
+</script>
+
+<style>
+  .header-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, #1e1e2f, #2b2b45);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .order-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s ease;
+  }
+
+  .order-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .order-header {
+    background: linear-gradient(135deg, #1e1e2f, #2b2b45);
+    padding: 16px 20px;
+    color: white;
+  }
+
+  .order-icon {
+    width: 38px;
+    height: 38px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .order-meta {
+    background: #f8f9fa;
+    border-bottom: 1px solid #eee;
+  }
+
+  .status-badge {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .status-badge.placed {
+    background: rgba(13, 110, 253, 0.15);
+    color: #0d6efd;
+  }
+
+  .status-badge.shipped {
+    background: rgba(255, 193, 7, 0.15);
+    color: #e6a800;
+  }
+
+  .status-badge.delivered {
+    background: rgba(25, 135, 84, 0.15);
+    color: #198754;
+  }
+
+  .status-badge.cancelled {
+    background: rgba(220, 53, 69, 0.15);
+    color: #dc3545;
+  }
+
+  .status-badge.return-requested {
+    background: rgba(255, 152, 0, 0.15);
+    color: #ff9800;
+  }
+
+  .status-badge.return-approved {
+    background: rgba(25, 135, 84, 0.15);
+    color: #198754;
+  }
+
+  .divider {
+    height: 1px;
+    background: #f0f0f0;
+  }
+
+  .product-dot {
+    width: 8px;
+    height: 8px;
+    background: #1e1e2f;
+    border-radius: 50%;
+  }
+
+  .qty-badge {
+    background: #f0f2f5;
+    color: #555;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .order-footer {
+    background: #f8f9fa;
+    border-top: 1px solid #eee;
+  }
+
+  .empty-orders {
+    background: white;
+    border-radius: 20px;
+    padding: 60px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  }
+
+  .reason-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .reason-option {
+    cursor: pointer;
+    margin: 0;
+  }
+
+  .reason-option input[type="radio"] {
+    display: none;
+  }
+
+  .reason-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border: 2px solid #eee;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+  }
+
+  .reason-card:hover {
+    border-color: #1e1e2f;
+    background: #f8f9fa;
+  }
+
+  .reason-card.selected {
+    border-color: #dc3545;
+    background: rgba(220, 53, 69, 0.05);
+  }
+
+  .reason-icon {
+    font-size: 24px;
+  }
+</style>

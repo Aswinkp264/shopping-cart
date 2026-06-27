@@ -1,0 +1,135 @@
+<section class="py-5" style="background: #f0f2f5; min-height: 100vh;">
+  <div class="container">
+
+    <!-- Page Header -->
+    <div class="d-flex align-items-center mb-4">
+      <div class="header-icon me-3">
+        <i class="bi bi-people fs-4 text-white"></i>
+      </div>
+      <div>
+        <h3 class="fw-bold mb-0">Manage Users</h3>
+        <small class="text-muted">View and manage all registered users</small>
+      </div>
+    </div>
+
+    {{#if users}}
+
+    <div class="card border-0 shadow-sm" style="border-radius: 20px; overflow: hidden;">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead>
+            <tr style="background: linear-gradient(135deg, #1e1e2f, #2b2b45); color: white;">
+              <th class="py-3 px-4">#</th>
+              <th class="py-3">Name</th>
+              <th class="py-3">Email</th>
+              <th class="py-3">Status</th>
+              <th class="py-3 text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each users}}
+            <tr>
+              <td class="px-4 py-3 text-muted">{{inc @index}}</td>
+              <td class="py-3">
+                <div class="d-flex align-items-center gap-2">
+                  <div class="avatar-circle">{{this.name.[0]}}</div>
+                  <span class="fw-semibold">{{this.name}}</span>
+                </div>
+              </td>
+              <td class="py-3 text-muted">{{this.email}}</td>
+              <td class="py-3">
+                {{#if this.blocked}}
+                  <span class="badge-status blocked">Blocked</span>
+                {{else}}
+                  <span class="badge-status active">Active</span>
+                {{/if}}
+              </td>
+              <td class="py-3 text-center">
+                {{#if this.blocked}}
+                  <a href="/admin/unblock-user/{{this._id}}"
+                    class="btn btn-sm btn-success px-3"
+                    style="border-radius: 10px;">
+                    <i class="bi bi-unlock me-1"></i> Unblock
+                  </a>
+                {{else}}
+                  <a href="/admin/block-user/{{this._id}}"
+                    class="btn btn-sm btn-danger px-3"
+                    style="border-radius: 10px;">
+                    <i class="bi bi-slash-circle me-1"></i> Block
+                  </a>
+                {{/if}}
+              </td>
+            </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    {{else}}
+
+    <div class="text-center py-5 bg-white rounded-4 shadow-sm">
+      <i class="bi bi-people" style="font-size: 60px; color: #ccc;"></i>
+      <h5 class="fw-bold text-muted mt-3">No users found</h5>
+    </div>
+
+    {{/if}}
+
+  </div>
+</section>
+
+<style>
+  .header-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, #1e1e2f, #2b2b45);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .avatar-circle {
+    width: 34px;
+    height: 34px;
+    background: linear-gradient(135deg, #ff9800, #ff5722);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+  }
+
+  .badge-status {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .badge-status.active {
+    background: rgba(25, 135, 84, 0.15);
+    color: #198754;
+  }
+
+  .badge-status.blocked {
+    background: rgba(220, 53, 69, 0.15);
+    color: #dc3545;
+  }
+
+  table thead th {
+    font-weight: 600;
+    font-size: 14px;
+    border: none;
+  }
+
+  table tbody tr {
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  table tbody tr:hover {
+    background: #f8f9fa;
+  }
+</style>

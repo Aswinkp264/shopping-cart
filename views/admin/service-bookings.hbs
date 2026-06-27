@@ -1,0 +1,361 @@
+```hbs
+<section class="container py-4">
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h3 class="fw-bold mb-0">
+        <i class="bi bi-tools me-2"></i>
+        Service Bookings
+      </h3>
+
+      <small class="text-muted">
+        Manage repair bookings
+      </small>
+    </div>
+  </div>
+
+  <div class="card shadow border-0 rounded-4 overflow-hidden">
+
+    <div class="table-responsive">
+
+      <table class="table align-middle mb-0">
+
+        <thead class="table-dark">
+
+          <tr>
+            <th>Customer</th>
+            <th>Phone</th>
+            <th>Device</th>
+            <th>Service</th>
+            <th>Date</th>
+            <th>Visit</th>
+            <th>Address</th>
+            <th>Map</th>
+            <th>Status</th>
+            <th>Update</th>
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          {{#each bookings}}
+
+            <tr>
+
+              <!-- CUSTOMER -->
+              <td>
+                <strong>{{this.customerName}}</strong>
+              </td>
+
+              <!-- PHONE -->
+              <td>
+                {{this.phone}}
+              </td>
+
+              <!-- DEVICE -->
+              <td>
+                {{this.deviceBrand}}
+                -
+                {{this.deviceModel}}
+              </td>
+
+              <!-- SERVICE -->
+              <td>
+                {{this.serviceType}}
+              </td>
+
+              <!-- DATE -->
+              <td>
+                {{this.preferredDate}}
+
+                <small class="text-muted d-block">
+                  {{this.timeSlot}}
+                </small>
+              </td>
+
+              <!-- VISIT TYPE -->
+              <td>
+
+                {{#if (eq this.visitType "Pickup")}}
+
+                  <span class="badge bg-warning text-dark">
+                    Pickup
+                  </span>
+
+                {{else}}
+
+                  <span class="badge bg-info">
+                    Walk-in
+                  </span>
+
+                {{/if}}
+
+              </td>
+
+              <!-- ADDRESS -->
+              <td style="min-width:260px;">
+
+                {{#if this.address}}
+
+                  <div class="small">
+
+                    <strong>
+                      {{this.addressType}}
+                    </strong>
+
+                    <br />
+
+                    {{this.address}}
+
+                    <br />
+
+                    {{#if this.landmark}}
+
+                      Landmark:
+                      {{this.landmark}}
+
+                      <br />
+
+                    {{/if}}
+
+                    {{this.district}},
+                    {{this.state}}
+
+                    -
+                    {{this.pincode}}
+
+                  </div>
+
+                {{else}}
+
+                  <span class="text-muted">
+                    No Address
+                  </span>
+
+                {{/if}}
+
+              </td>
+
+              <!-- MAP -->
+              <td>
+
+                {{#if this.latitude}}
+
+                  <a
+                    href="https://www.google.com/maps?q={{this.latitude}},{{this.longitude}}"
+                    target="_blank"
+                    class="btn btn-sm btn-dark"
+                  >
+                    <i class="bi bi-geo-alt-fill"></i>
+                    Map
+                  </a>
+
+                {{else}}
+
+                  <span class="text-muted">
+                    No Location
+                  </span>
+
+                {{/if}}
+
+              </td>
+
+              <!-- STATUS BADGE -->
+              <td>
+
+                {{#if (eq this.status "Pending")}}
+
+                  <span class="badge bg-secondary">
+                    Pending
+                  </span>
+
+                {{else if (eq this.status "Accepted")}}
+
+                  <span class="badge bg-primary">
+                    Accepted
+                  </span>
+
+                {{else if (eq this.status "Technician Assigned")}}
+
+                  <span class="badge bg-warning text-dark">
+                    Technician Assigned
+                  </span>
+
+                {{else if (eq this.status "In Progress")}}
+
+                  <span class="badge bg-info text-dark">
+                    In Progress
+                  </span>
+
+                {{else if (eq this.status "Ready for Delivery")}}
+
+                  <span class="badge bg-dark">
+                    Ready for Delivery
+                  </span>
+
+                {{else if (eq this.status "Completed")}}
+
+                  <span class="badge bg-success">
+                    Completed
+                  </span>
+
+                {{else if (eq this.status "Cancelled")}}
+
+                  <span class="badge bg-danger">
+                    Cancelled
+                  </span>
+
+                {{/if}}
+
+              </td>
+
+              <!-- UPDATE STATUS -->
+              <td style="min-width:240px;">
+
+                <form
+                  class="serviceStatusForm"
+                  data-id="{{this._id}}"
+                >
+
+                  <select
+                    name="status"
+                    class="form-select form-select-sm mb-2"
+                  >
+
+                    <option
+                      value="Pending"
+                      {{#if (eq this.status "Pending")}}selected{{/if}}
+                    >
+                      Pending
+                    </option>
+
+                    <option
+                      value="Accepted"
+                      {{#if (eq this.status "Accepted")}}selected{{/if}}
+                    >
+                      Accepted
+                    </option>
+
+                    <option
+                      value="Technician Assigned"
+                      {{#if (eq this.status "Technician Assigned")}}selected{{/if}}
+                    >
+                      Technician Assigned
+                    </option>
+
+                    <option
+                      value="In Progress"
+                      {{#if (eq this.status "In Progress")}}selected{{/if}}
+                    >
+                      In Progress
+                    </option>
+
+                    <option
+                      value="Ready for Delivery"
+                      {{#if (eq this.status "Ready for Delivery")}}selected{{/if}}
+                    >
+                      Ready for Delivery
+                    </option>
+
+                    <option
+                      value="Completed"
+                      {{#if (eq this.status "Completed")}}selected{{/if}}
+                    >
+                      Completed
+                    </option>
+
+                    <option
+                      value="Cancelled"
+                      {{#if (eq this.status "Cancelled")}}selected{{/if}}
+                    >
+                      Cancelled
+                    </option>
+
+                  </select>
+
+                  <button
+                    type="submit"
+                    class="btn btn-sm btn-primary w-100"
+                  >
+                    <i class="bi bi-check-circle me-1"></i>
+                    Update Status
+                  </button>
+
+                </form>
+
+              </td>
+
+            </tr>
+
+          {{/each}}
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</section>
+
+<script>
+
+  document
+    .querySelectorAll(".serviceStatusForm")
+    .forEach((form) => {
+
+      form.addEventListener("submit", async (e) => {
+
+        e.preventDefault();
+
+        const bookingId = form.dataset.id;
+
+        const status =
+          form.querySelector("select").value;
+
+        try {
+
+          const response = await fetch(
+            "/admin/update-service-status",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                bookingId,
+                status,
+              }),
+            }
+          );
+
+          const data = await response.json();
+
+          if (data.status) {
+
+            alert("Service status updated");
+
+            location.reload();
+
+          } else {
+
+            alert("Update failed");
+
+          }
+
+        } catch (err) {
+
+          console.log(err);
+
+          alert("Something went wrong");
+
+        }
+
+      });
+
+    });
+
+</script>
+```

@@ -1,0 +1,375 @@
+<div class="profile-page">
+
+  <div class="container py-5">
+
+    <!-- PROFILE HEADER -->
+
+    <div class="profile-header mb-4">
+
+      <div class="profile-avatar">
+        <i class="bi bi-person-circle"></i>
+      </div>
+
+      <div>
+        <h2 class="mb-1">{{user.name}}</h2>
+        <p class="mb-0">{{user.email}}</p>
+      </div>
+
+    </div>
+
+    <div class="row g-4">
+
+      <!-- LEFT SIDE -->
+
+      <div class="col-lg-4">
+
+        <div class="profile-card">
+
+          <h5 class="card-title">
+            <i class="bi bi-person-fill me-2"></i>
+            Profile Details
+          </h5>
+
+          <form action="/update-profile" method="POST">
+
+            <div class="mb-3">
+              <label>Name</label>
+              <input
+                type="text"
+                class="form-control"
+                name="name"
+                value="{{user.name}}"
+                required
+              >
+            </div>
+
+            <div class="mb-3">
+              <label>Email</label>
+              <input
+                type="email"
+                class="form-control"
+                name="email"
+                value="{{user.email}}"
+                required
+              >
+            </div>
+
+            <div class="mb-3">
+              <label>Phone</label>
+              <input
+                type="text"
+                class="form-control"
+                name="phone"
+                value="{{user.phone}}"
+              >
+            </div>
+
+            <button class="btn btn-dark w-100">
+              Update Profile
+            </button>
+
+          </form>
+
+        </div>
+
+        <!-- PASSWORD -->
+
+        <div class="profile-card mt-4">
+
+          <h5 class="card-title">
+            <i class="bi bi-shield-lock-fill me-2"></i>
+            Change Password
+          </h5>
+
+          <form action="/change-password" method="POST">
+
+            <div class="mb-3">
+              <label>Current Password</label>
+              <input
+                type="password"
+                class="form-control"
+                name="currentPassword"
+                required
+              >
+            </div>
+
+            <div class="mb-3">
+              <label>New Password</label>
+              <input
+                type="password"
+                class="form-control"
+                name="newPassword"
+                required
+              >
+            </div>
+
+            <button class="btn btn-danger w-100">
+              Change Password
+            </button>
+
+          </form>
+
+        </div>
+
+      </div>
+
+      <!-- RIGHT SIDE -->
+
+      <div class="col-lg-8">
+
+        <!-- STATS -->
+
+        <div class="row g-3 mb-4">
+
+          <div class="col-md-4">
+            <div class="stat-card">
+              <i class="bi bi-bag-check"></i>
+              <h4>{{user.ordersCount}}</h4>
+              <p>Total Orders</p>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="stat-card">
+              <i class="bi bi-geo-alt"></i>
+              <h4>{{user.addresses.length}}</h4>
+              <p>Addresses</p>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="stat-card">
+              <i class="bi bi-person"></i>
+              <h4>Active</h4>
+              <p>Account</p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ADDRESS CARD -->
+
+        <div class="profile-card">
+
+          <div class="d-flex justify-content-between align-items-center mb-4">
+
+            <h5 class="card-title mb-0">
+              <i class="bi bi-geo-alt-fill me-2"></i>
+              Address Management
+            </h5>
+
+          </div>
+
+          <!-- ADD ADDRESS FORM -->
+
+          <form action="/add-address" method="POST">
+
+            <div class="row">
+
+              <div class="col-md-6 mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  name="name"
+                  placeholder="Full Name"
+                  required
+                >
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  name="phone"
+                  placeholder="Phone Number"
+                  required
+                >
+              </div>
+
+              <div class="col-md-8 mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  name="address"
+                  placeholder="Address"
+                  required
+                >
+              </div>
+
+              <div class="col-md-4 mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  name="pincode"
+                  placeholder="Pincode"
+                  required
+                >
+              </div>
+
+            </div>
+
+            <button class="btn btn-success">
+              Add Address
+            </button>
+
+          </form>
+
+          <hr>
+
+          <!-- ADDRESS LIST -->
+
+          {{#if user.addresses}}
+
+            <div class="row">
+
+              {{#each user.addresses}}
+
+              <div class="col-md-6 mb-3">
+
+                <div class="address-card">
+
+                  <h6>{{this.name}}</h6>
+
+                  <p>
+                    <i class="bi bi-telephone"></i>
+                    {{this.phone}}
+                  </p>
+
+                  <p>
+                    {{this.address}}
+                  </p>
+
+                  <p>
+                    PIN : {{this.pincode}}
+                  </p>
+
+                  <a
+                    href="/delete-address/{{this._id}}"
+                    class="btn btn-sm btn-outline-danger"
+                  >
+                    Delete
+                  </a>
+
+                </div>
+
+              </div>
+
+              {{/each}}
+
+            </div>
+
+          {{else}}
+
+            <div class="text-center py-4">
+
+              <i
+                class="bi bi-geo-alt"
+                style="font-size:50px;color:#aaa"
+              ></i>
+
+              <h6 class="mt-3 text-muted">
+                No Addresses Added
+              </h6>
+
+            </div>
+
+          {{/if}}
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<style>
+
+body{
+  background:#f5f7fb;
+}
+
+.profile-header{
+  background:linear-gradient(135deg,#111827,#1f2937);
+  color:white;
+  padding:30px;
+  border-radius:20px;
+  display:flex;
+  align-items:center;
+  gap:20px;
+}
+
+.profile-avatar{
+  font-size:70px;
+}
+
+.profile-card{
+  background:white;
+  border-radius:20px;
+  padding:25px;
+  box-shadow:0 5px 25px rgba(0,0,0,.06);
+}
+
+.card-title{
+  font-weight:700;
+  margin-bottom:20px;
+}
+
+.stat-card{
+  background:white;
+  padding:25px;
+  border-radius:18px;
+  text-align:center;
+  box-shadow:0 5px 20px rgba(0,0,0,.05);
+}
+
+.stat-card i{
+  font-size:28px;
+  margin-bottom:10px;
+  display:block;
+}
+
+.stat-card h4{
+  margin:0;
+  font-weight:700;
+}
+
+.stat-card p{
+  margin:0;
+  color:#777;
+}
+
+.address-card{
+  border:1px solid #e9ecef;
+  border-radius:15px;
+  padding:20px;
+  height:100%;
+  transition:.3s;
+}
+
+.address-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 10px 20px rgba(0,0,0,.08);
+}
+
+.form-control{
+  border-radius:12px;
+  padding:12px;
+}
+
+.btn{
+  border-radius:12px;
+}
+
+@media(max-width:768px){
+
+.profile-header{
+  flex-direction:column;
+  text-align:center;
+}
+
+}
+
+</style>

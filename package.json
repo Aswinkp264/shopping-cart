@@ -10,6 +10,7 @@
     "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.6",
     "debug": "^4.3.4",
+    "dotenv": "^17.4.2",
     "express": "^4.22.1",
     "express-fileupload": "^1.5.2",
     "express-handlebars": "^8.0.1",
@@ -17,7 +18,8 @@
     "hbs": "^4.2.0",
     "http-errors": "^2.0.0",
     "mongodb": "^7.0.0",
-    "morgan": "^1.10.1"
+    "morgan": "^1.10.1",
+    "razorpay": "^2.9.6"
   },
   "devDependencies": {
     "nodemon": "^3.1.11"

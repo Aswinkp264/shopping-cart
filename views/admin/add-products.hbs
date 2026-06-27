@@ -1,9 +1,7 @@
 <div class="premium-bg">
-
   <div class="container py-5">
     <div class="row justify-content-center">
-      <div class="col-lg-5 col-md-7">
-
+      <div class="col-lg-7 col-md-9">
         <div class="premium-card">
 
           <h3 class="text-center fw-bold mb-4 text-white">
@@ -17,185 +15,620 @@
             onsubmit="return validateForm();"
           >
 
-            <!-- Product Name -->
-            <div class="mb-3">
-              <label class="form-label text-light">Product Name</label>
-              <input type="text" id="name" name="name"
-                class="form-control premium-input">
-              <small class="text-danger" id="nameError"></small>
-            </div>
-
             <!-- Category -->
             <div class="mb-3">
               <label class="form-label text-light">Category</label>
-              <input type="text" id="category" name="category"
-                class="form-control premium-input">
+              <select id="category" name="category" class="form-select premium-input" onchange="handleCategoryChange()">
+                <option value="">Select Category</option>
+                <option value="Mobile Cover">Mobile Cover</option>
+                <option value="Screen Guard">Screen Guard</option>
+                <option value="Gadgets">Gadgets</option>
+                <option value="Used Mobile">Used Mobile</option>
+              </select>
               <small class="text-danger" id="categoryError"></small>
             </div>
 
-            <!-- Description -->
-            <div class="mb-3">
-              <label class="form-label text-light">Description</label>
-              <textarea id="description" name="description"
-                class="form-control premium-input"
-                style="height:100px"></textarea>
-              <small class="text-danger" id="descriptionError"></small>
+            <!-- ===== MOBILE COVER & SCREEN GUARD FIELDS ===== -->
+            <div id="coverFields" class="d-none">
+
+              <div class="section-label">📱 Device Details</div>
+
+              <div class="mb-3">
+                <label class="form-label text-light">Product Name</label>
+                <input type="text" name="name" id="coverName" class="form-control premium-input" placeholder="e.g. Samsung S24 Silicone Back Cover" />
+                <small class="text-danger" id="nameError"></small>
+              </div>
+
+              <div class="row">
+                <div class="col-6 mb-3">
+                  <label class="form-label text-light">Brand</label>
+                  <select name="brand" id="coverBrand" class="form-select premium-input" onchange="loadModels('cover')">
+                    <option value="">Select Brand</option>
+                    <option>Samsung</option>
+                    <option>Apple</option>
+                    <option>OnePlus</option>
+                    <option>Redmi</option>
+                    <option>Realme</option>
+                    <option>Oppo</option>
+                    <option>Vivo</option>
+                    <option>Nothing</option>
+                    <option>Poco</option>
+                    <option>iQOO</option>
+                  </select>
+                  <small class="text-danger" id="brandError"></small>
+                </div>
+                <div class="col-6 mb-3">
+                  <label class="form-label text-light">Model</label>
+                  <select name="model" id="coverModel" class="form-select premium-input">
+                    <option value="">Select Brand First</option>
+                  </select>
+                  <small class="text-danger" id="modelError"></small>
+                </div>
+              </div>
+
+              <div id="coverTypeField" class="mb-3 d-none">
+                <label class="form-label text-light">Cover Type</label>
+                <select name="type" class="form-select premium-input">
+                  <option value="">Select Type</option>
+                  <option>Back Cover</option>
+                  <option>Flip Cover</option>
+                  <option>Clear Case</option>
+                  <option>Wallet Case</option>
+                  <option>Bumper Case</option>
+                  <option>Rugged Case</option>
+                </select>
+              </div>
+
+              <div id="guardTypeField" class="mb-3 d-none">
+                <label class="form-label text-light">Screen Guard Type</label>
+                <select name="type" class="form-select premium-input">
+                  <option value="">Select Type</option>
+                  <option>Tempered Glass</option>
+                  <option>Matte Glass</option>
+                  <option>Privacy Glass</option>
+                  <option>Hydrogel</option>
+                  <option>Anti-Glare</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label text-light">Material</label>
+                <select name="material" class="form-select premium-input">
+                  <option value="">Select Material</option>
+                  <option>Silicone</option>
+                  <option>Hard Plastic</option>
+                  <option>Leather</option>
+                  <option>TPU</option>
+                  <option>Fabric</option>
+                  <option>Metal</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label text-light">Color</label>
+                <input type="text" name="color" class="form-control premium-input" placeholder="Black, Blue, Transparent..." />
+              </div>
+
             </div>
 
-            <!-- Price -->
-            <div class="mb-3">
-              <label class="form-label text-light">Price (₹)</label>
-              <input type="number" id="price" name="price"
-                class="form-control premium-input">
-              <small class="text-danger" id="priceError"></small>
+            <!-- ===== GADGETS FIELDS ===== -->
+            <div id="gadgetFields" class="d-none">
+
+              <div class="section-label">🎧 Gadget Details</div>
+
+              <div class="mb-3">
+                <label class="form-label text-light">Product Name</label>
+                <input type="text" name="name" id="gadgetName" class="form-control premium-input" placeholder="e.g. boAt Airdopes 141" />
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label text-light">Sub Category</label>
+                <select name="subCategory" id="subCategory" class="form-select premium-input" onchange="handleSubCategory()">
+                  <option value="">Select Type</option>
+                  <option value="Earphones">Earphones</option>
+                  <option value="Earbuds">Earbuds</option>
+                  <option value="Headphones">Headphones</option>
+                  <option value="Charger">Charger</option>
+                  <option value="Cable">Cable</option>
+                  <option value="Power Bank">Power Bank</option>
+                  <option value="Speaker">Speaker</option>
+                  <option value="Mobile Accessories">Other Accessories</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label text-light">Brand</label>
+                <input type="text" name="brand" class="form-control premium-input" placeholder="boAt, JBL, Anker, Belkin..." />
+              </div>
+
+              <!-- Audio specific -->
+              <div id="audioFields" class="d-none">
+                <div class="row">
+                  <div class="col-6 mb-3">
+                    <label class="form-label text-light">Connectivity</label>
+                    <select name="connectivity" class="form-select premium-input">
+                      <option value="">Select</option>
+                      <option>Bluetooth</option>
+                      <option>Wired (3.5mm)</option>
+                      <option>Wired (Type-C)</option>
+                      <option>Wired (Lightning)</option>
+                    </select>
+                  </div>
+                  <div class="col-6 mb-3">
+                    <label class="form-label text-light">Battery Life</label>
+                    <input type="text" name="batteryLife" class="form-control premium-input" placeholder="e.g. 30 hrs" />
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6 mb-3">
+                    <label class="form-label text-light">Noise Cancellation</label>
+                    <select name="noiseCancellation" class="form-select premium-input">
+                      <option value="No">No</option>
+                      <option value="ANC">Active (ANC)</option>
+                      <option value="Passive">Passive</option>
+                    </select>
+                  </div>
+                  <div class="col-6 mb-3">
+                    <label class="form-label text-light">Color</label>
+                    <input type="text" name="color" class="form-control premium-input" placeholder="Black, White..." />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Charger/Cable specific -->
+              <div id="chargerFields" class="d-none">
+                <div class="row">
+                  <div class="col-6 mb-3">
+                    <label class="form-label text-light">Watt / Speed</label>
+                    <input type="text" name="watt" class="form-control premium-input" placeholder="e.g. 65W, 33W..." />
+                  </div>
+                  <div class="col-6 mb-3">
+                    <label class="form-label text-light">Port Type</label>
+                    <select name="portType" class="form-select premium-input">
+                      <option value="">Select</option>
+                      <option>Type-C</option>
+                      <option>Micro USB</option>
+                      <option>Lightning</option>
+                      <option>Type-C + USB-A</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Power Bank specific -->
+              <div id="powerBankFields" class="d-none">
+                <div class="row">
+                  <div class="col-6 mb-3">
+                    <label class="form-label text-light">Capacity (mAh)</label>
+                    <input type="text" name="capacity" class="form-control premium-input" placeholder="e.g. 10000mAh" />
+                  </div>
+                  <div class="col-6 mb-3">
+                    <label class="form-label text-light">Output Watt</label>
+                    <input type="text" name="watt" class="form-control premium-input" placeholder="e.g. 22.5W" />
+                  </div>
+                </div>
+              </div>
+
             </div>
 
-            <!-- Image Upload -->
-            <div class="mb-3">
-              <label class="form-label text-light">Upload Image</label>
-              <input type="file"
-                     id="image"
-                     name="image"
-                     class="form-control premium-input"
-                     accept="image/*"
-                     onchange="previewImage(event)">
-              <small class="text-danger" id="imageError"></small>
+            <!-- ===== USED MOBILE FIELDS ===== -->
+            <div id="usedMobileFields" class="d-none">
+
+              <div class="section-label">📲 Used Mobile Details</div>
+
+              <div class="mb-3">
+                <label class="form-label text-light">Product Name</label>
+                <input type="text" name="name" id="usedName" class="form-control premium-input" placeholder="e.g. Samsung Galaxy S23 128GB Good Condition" />
+              </div>
+
+              <div class="row">
+                <div class="col-6 mb-3">
+                  <label class="form-label text-light">Brand</label>
+                  <select name="brand" id="usedBrand" class="form-select premium-input" onchange="loadModels('used')">
+                    <option value="">Select Brand</option>
+                    <option>Samsung</option>
+                    <option>Apple</option>
+                    <option>OnePlus</option>
+                    <option>Redmi</option>
+                    <option>Realme</option>
+                    <option>Oppo</option>
+                    <option>Vivo</option>
+                    <option>Nothing</option>
+                    <option>Poco</option>
+                    <option>iQOO</option>
+                  </select>
+                </div>
+                <div class="col-6 mb-3">
+                  <label class="form-label text-light">Model</label>
+                  <select name="model" id="usedModel" class="form-select premium-input">
+                    <option value="">Select Brand First</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-6 mb-3">
+                  <label class="form-label text-light">Storage</label>
+                  <select name="storage" class="form-select premium-input">
+                    <option value="">Select</option>
+                    <option>64GB</option>
+                    <option>128GB</option>
+                    <option>256GB</option>
+                    <option>512GB</option>
+                    <option>1TB</option>
+                  </select>
+                </div>
+                <div class="col-6 mb-3">
+                  <label class="form-label text-light">RAM</label>
+                  <select name="ram" class="form-select premium-input">
+                    <option value="">Select</option>
+                    <option>4GB</option>
+                    <option>6GB</option>
+                    <option>8GB</option>
+                    <option>12GB</option>
+                    <option>16GB</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-6 mb-3">
+                  <label class="form-label text-light">Condition</label>
+                  <select name="condition" class="form-select premium-input">
+                    <option value="">Select</option>
+                    <option value="Like New">Like New — No scratches</option>
+                    <option value="Good">Good — Minor scratches</option>
+                    <option value="Fair">Fair — Visible scratches</option>
+                  </select>
+                </div>
+                <div class="col-6 mb-3">
+                  <label class="form-label text-light">Color</label>
+                  <input type="text" name="color" class="form-control premium-input" placeholder="Midnight, Phantom Black..." />
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-6 mb-3">
+                  <label class="form-label text-light">Battery Health</label>
+                  <input type="text" name="batteryHealth" class="form-control premium-input" placeholder="e.g. 89% (iPhone only)" />
+                </div>
+                <div class="col-6 mb-3">
+                  <label class="form-label text-light">Original Box</label>
+                  <select name="originalBox" class="form-select premium-input">
+                    <option value="false">No</option>
+                    <option value="true">Yes</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label text-light">Included Accessories</label>
+                <div class="d-flex flex-wrap gap-2 mt-1">
+                  <label class="checkbox-label"><input type="checkbox" name="accessories" value="Charger"> Charger</label>
+                  <label class="checkbox-label"><input type="checkbox" name="accessories" value="Cable"> Cable</label>
+                  <label class="checkbox-label"><input type="checkbox" name="accessories" value="Earphones"> Earphones</label>
+                  <label class="checkbox-label"><input type="checkbox" name="accessories" value="Back Cover"> Back Cover</label>
+                  <label class="checkbox-label"><input type="checkbox" name="accessories" value="Screen Guard"> Screen Guard</label>
+                </div>
+              </div>
+
             </div>
 
-            <!-- Image Preview -->
-            <div class="text-center mb-4">
-              <img id="imagePreview"
-                   class="img-fluid rounded-4 shadow d-none"
-                   style="max-height: 180px;">
-            </div>
+            <!-- ===== COMMON FIELDS (shown for all categories) ===== -->
+            <div id="commonFields" class="d-none">
 
-            <!-- Button -->
-            <div class="d-grid">
-              <button class="btn premium-btn">
-                🚀 Add Product
-              </button>
+              <div class="section-label">💰 Pricing & Stock</div>
+
+              <div class="row">
+                <div class="col-6 mb-3">
+                  <label class="form-label text-light">Price (₹)</label>
+                  <input type="number" name="price" id="price" class="form-control premium-input" placeholder="Enter price" />
+                  <small class="text-danger" id="priceError"></small>
+                </div>
+                <div class="col-6 mb-3">
+                  <label class="form-label text-light">Discount (%)</label>
+                  <input type="number" name="discount" id="discount" class="form-control premium-input" placeholder="0" value="0" min="0" max="100" />
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label text-light">Final Price Preview</label>
+                <div class="final-price-box" id="finalPricePreview">Enter price above</div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label text-light">Stock Quantity</label>
+                <input type="number" name="stock" id="stock" class="form-control premium-input" placeholder="Available stock" />
+                <small class="text-danger" id="stockError"></small>
+              </div>
+
+              <div class="section-label">📋 Policies</div>
+
+              <div class="mb-3">
+                <label class="form-label text-light"><i class="bi bi-arrow-return-left me-1"></i>Return Policy</label>
+                <select name="returnPolicy" class="form-select premium-input">
+                  <option value="No Returns">No Returns</option>
+                  <option value="7 Days Return">7 Days Return</option>
+                  <option value="10 Days Return">10 Days Return</option>
+                  <option value="15 Days Return">15 Days Return</option>
+                  <option value="30 Days Return">30 Days Return</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label text-light"><i class="bi bi-arrow-repeat me-1"></i>Replacement Policy</label>
+                <select name="replacementPolicy" class="form-select premium-input">
+                  <option value="No Replacement">No Replacement</option>
+                  <option value="7 Days Replacement">7 Days Replacement</option>
+                  <option value="10 Days Replacement">10 Days Replacement</option>
+                  <option value="15 Days Replacement">15 Days Replacement</option>
+                  <option value="30 Days Replacement">30 Days Replacement</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label text-light"><i class="bi bi-shield-check me-1"></i>Warranty</label>
+                <select name="warranty" class="form-select premium-input">
+                  <option value="No Warranty">No Warranty</option>
+                  <option value="30 Day Seller Warranty">30 Day Seller Warranty</option>
+                  <option value="3 Months Warranty">3 Months Warranty</option>
+                  <option value="6 Months Warranty">6 Months Warranty</option>
+                  <option value="1 Year Warranty">1 Year Warranty</option>
+                  <option value="2 Years Warranty">2 Years Warranty</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label text-light">Description</label>
+                <textarea name="description" id="description" class="form-control premium-input" placeholder="Enter product description" style="height:100px"></textarea>
+                <small class="text-danger" id="descriptionError"></small>
+              </div>
+
+              <div class="section-label">🖼️ Product Image</div>
+
+              <div class="mb-3">
+                <label class="form-label text-light">Upload Image</label>
+                <input type="file" id="image" name="image" class="form-control premium-input" accept="image/*" onchange="previewImage(event)" />
+                <small class="text-danger" id="imageError"></small>
+              </div>
+
+              <div class="text-center mb-4">
+                <img id="imagePreview" class="img-fluid rounded-4 shadow d-none" style="max-height: 180px;" />
+              </div>
+
+              <div class="d-grid">
+                <button class="btn premium-btn">🚀 Add Product</button>
+              </div>
+
             </div>
 
           </form>
-
         </div>
-
       </div>
     </div>
   </div>
-
 </div>
 
 <style>
-/* Background */
-.premium-bg {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #1e1e2f, #2b2b45);
-  display: flex;
-  align-items: center;
-}
-
-/* Card */
-.premium-card {
-  backdrop-filter: blur(12px);
-  background: rgba(255, 255, 255, 0.08);
-  padding: 40px;
-  border-radius: 20px;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.4);
-  border: 1px solid rgba(255,255,255,0.1);
-}
-
-/* Inputs */
-.premium-input {
-  background: rgba(255,255,255,0.1);
-  border: 1px solid rgba(255,255,255,0.2);
-  color: white;
-  border-radius: 12px;
-  padding: 12px;
-}
-
-.premium-input::placeholder {
-  color: #ddd;
-}
-
-.premium-input:focus {
-  background: rgba(255,255,255,0.15);
-  border-color: #ffc107;
-  box-shadow: 0 0 12px rgba(255,193,7,0.4);
-  color: white;
-}
-
-/* Button */
-.premium-btn {
-  background: linear-gradient(135deg, #ff9800, #ff5722);
-  border: none;
-  padding: 12px;
-  border-radius: 30px;
-  font-weight: bold;
-  color: white;
-  transition: all 0.3s ease;
-}
-
-.premium-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-}
-
-/* Animation */
-.premium-card {
-  animation: fadeInUp 0.5s ease;
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(25px);
+  .premium-bg {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1e1e2f, #2b2b45);
+    display: flex;
+    align-items: center;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  .premium-card {
+    backdrop-filter: blur(12px);
+    background: rgba(255, 255, 255, 0.08);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    animation: fadeInUp 0.5s ease;
   }
-}
+
+  .premium-input {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    border-radius: 12px;
+    padding: 12px;
+  }
+
+  .premium-input::placeholder { color: #ddd; }
+
+  .premium-input:focus {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #ffc107;
+    box-shadow: 0 0 12px rgba(255, 193, 7, 0.4);
+    color: white;
+  }
+
+  .premium-input option { background: #2b2b45; color: white; }
+
+  .premium-btn {
+    background: linear-gradient(135deg, #ff9800, #ff5722);
+    border: none;
+    padding: 12px;
+    border-radius: 30px;
+    font-weight: bold;
+    color: white;
+    transition: all 0.3s ease;
+  }
+
+  .premium-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  }
+
+  .section-label {
+    color: #ffc107;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    margin-top: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(255, 193, 7, 0.3);
+  }
+
+  .final-price-box {
+    background: rgba(255, 152, 0, 0.15);
+    border: 1px solid rgba(255, 152, 0, 0.4);
+    border-radius: 12px;
+    padding: 10px 14px;
+    color: #ff9800;
+    font-weight: 700;
+    font-size: 16px;
+  }
+
+  .checkbox-label {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    padding: 6px 14px;
+    color: white;
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+  }
+
+  .checkbox-label:hover {
+    background: rgba(255, 193, 7, 0.2);
+    border-color: #ffc107;
+  }
+
+  .checkbox-label input { accent-color: #ffc107; }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(25px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
 </style>
 
 <script>
-function previewImage(e) {
-  const img = document.getElementById("imagePreview");
-  img.src = URL.createObjectURL(e.target.files[0]);
-  img.classList.remove("d-none");
-}
+  // ===== PHONE MODELS BY BRAND =====
+  const phoneModels = {
+    Samsung: ["Galaxy S24 Ultra","Galaxy S24+","Galaxy S24","Galaxy S23 Ultra","Galaxy S23","Galaxy A55","Galaxy A35","Galaxy A15","Galaxy M34","Galaxy F55"],
+    Apple: ["iPhone 15 Pro Max","iPhone 15 Pro","iPhone 15 Plus","iPhone 15","iPhone 14 Pro Max","iPhone 14 Pro","iPhone 14","iPhone 13","iPhone 13 Pro","iPhone 12"],
+    OnePlus: ["OnePlus 12","OnePlus 12R","OnePlus 11","OnePlus Nord 4","OnePlus Nord CE4","OnePlus Nord CE3"],
+    Redmi: ["Redmi Note 13 Pro+","Redmi Note 13 Pro","Redmi Note 13","Redmi 13C","Redmi A3","Redmi Note 12 Pro"],
+    Realme: ["Realme GT 6","Realme 12 Pro+","Realme 12 Pro","Realme Narzo 70 Pro","Realme C65","Realme 12+"],
+    Oppo: ["Oppo Find X7","Oppo Reno 12 Pro","Oppo Reno 12","Oppo A3 Pro","Oppo A60","Oppo F27 Pro"],
+    Vivo: ["Vivo X100 Pro","Vivo V30 Pro","Vivo V30","Vivo T3 Pro","Vivo Y200","Vivo T3x"],
+    Nothing: ["Nothing Phone (2a) Plus","Nothing Phone (2a)","Nothing Phone (2)","Nothing Phone (1)"],
+    Poco: ["Poco F6 Pro","Poco F6","Poco X6 Pro","Poco X6","Poco M6 Pro","Poco C65"],
+    iQOO: ["iQOO 12","iQOO Neo 9 Pro","iQOO Neo 9","iQOO Z9 Pro","iQOO Z9","iQOO Z7 Pro"]
+  };
 
-function validateForm() {
-  let ok = true;
-
-  ["nameError","categoryError","descriptionError","priceError","imageError"]
-    .forEach(id => document.getElementById(id).innerText = "");
-
-  if (!name.value.trim()) {
-    nameError.innerText = "Required";
-    ok = false;
+  // ===== LOAD MODELS INTO DROPDOWN =====
+  function loadModels(type) {
+    const brandEl = type === 'cover' ? document.getElementById('coverBrand') : document.getElementById('usedBrand');
+    const modelEl = type === 'cover' ? document.getElementById('coverModel') : document.getElementById('usedModel');
+    const brand = brandEl.value;
+    const models = phoneModels[brand] || [];
+    modelEl.innerHTML = '<option value="">Select Model</option>';
+    models.forEach(m => {
+      const opt = document.createElement('option');
+      opt.value = m;
+      opt.textContent = m;
+      modelEl.appendChild(opt);
+    });
   }
 
-  if (!category.value.trim()) {
-    categoryError.innerText = "Required";
-    ok = false;
+  // ===== CATEGORY CHANGE =====
+  function handleCategoryChange() {
+    const cat = document.getElementById('category').value;
+
+    // hide all sections
+    document.getElementById('coverFields').classList.add('d-none');
+    document.getElementById('gadgetFields').classList.add('d-none');
+    document.getElementById('usedMobileFields').classList.add('d-none');
+    document.getElementById('commonFields').classList.add('d-none');
+    document.getElementById('coverTypeField').classList.add('d-none');
+    document.getElementById('guardTypeField').classList.add('d-none');
+
+    if (!cat) return;
+
+    // show common fields for all categories
+    document.getElementById('commonFields').classList.remove('d-none');
+
+    if (cat === 'Mobile Cover') {
+      document.getElementById('coverFields').classList.remove('d-none');
+      document.getElementById('coverTypeField').classList.remove('d-none');
+    } else if (cat === 'Screen Guard') {
+      document.getElementById('coverFields').classList.remove('d-none');
+      document.getElementById('guardTypeField').classList.remove('d-none');
+    } else if (cat === 'Gadgets') {
+      document.getElementById('gadgetFields').classList.remove('d-none');
+    } else if (cat === 'Used Mobile') {
+      document.getElementById('usedMobileFields').classList.remove('d-none');
+    }
   }
 
-  if (!description.value.trim()) {
-    descriptionError.innerText = "Required";
-    ok = false;
+  // ===== GADGET SUB-CATEGORY =====
+  function handleSubCategory() {
+    const sub = document.getElementById('subCategory').value;
+    document.getElementById('audioFields').classList.add('d-none');
+    document.getElementById('chargerFields').classList.add('d-none');
+    document.getElementById('powerBankFields').classList.add('d-none');
+
+    if (['Earphones','Earbuds','Headphones','Speaker'].includes(sub)) {
+      document.getElementById('audioFields').classList.remove('d-none');
+    } else if (['Charger','Cable'].includes(sub)) {
+      document.getElementById('chargerFields').classList.remove('d-none');
+    } else if (sub === 'Power Bank') {
+      document.getElementById('powerBankFields').classList.remove('d-none');
+    }
   }
 
-  if (!price.value || price.value <= 0) {
-    priceError.innerText = "Invalid price";
-    ok = false;
+  // ===== FINAL PRICE PREVIEW =====
+  function updateFinalPrice() {
+    const price = Number(document.getElementById('price').value);
+    const discount = Number(document.getElementById('discount').value) || 0;
+    const box = document.getElementById('finalPricePreview');
+    if (!price) { box.textContent = 'Enter price above'; return; }
+    const final = Math.round(price - (price * discount) / 100);
+    box.textContent = discount > 0
+      ? `₹${final}  (₹${price} - ${discount}% off)`
+      : `₹${final}`;
   }
 
-  if (!image.files.length) {
-    imageError.innerText = "Image required";
-    ok = false;
+  document.getElementById('price').addEventListener('input', updateFinalPrice);
+  document.getElementById('discount').addEventListener('input', updateFinalPrice);
+
+  // ===== IMAGE PREVIEW =====
+  function previewImage(e) {
+    const img = document.getElementById('imagePreview');
+    img.src = URL.createObjectURL(e.target.files[0]);
+    img.classList.remove('d-none');
   }
 
-  return ok;
-}
+  // ===== VALIDATION =====
+  function validateForm() {
+    let ok = true;
+    ['nameError','categoryError','brandError','modelError','stockError','descriptionError','priceError','imageError']
+      .forEach(id => { const el = document.getElementById(id); if (el) el.innerText = ''; });
+
+    const cat = document.getElementById('category').value;
+    if (!cat) { document.getElementById('categoryError').innerText = 'Required'; ok = false; }
+
+    const price = document.getElementById('price').value;
+    if (!price || Number(price) <= 0) { document.getElementById('priceError').innerText = 'Invalid price'; ok = false; }
+
+    const stock = document.getElementById('stock').value;
+    if (!stock || Number(stock) < 0) { document.getElementById('stockError').innerText = 'Invalid stock'; ok = false; }
+
+    const desc = document.getElementById('description').value;
+    if (!desc.trim()) { document.getElementById('descriptionError').innerText = 'Required'; ok = false; }
+
+    const image = document.getElementById('image');
+    if (!image.files.length) { document.getElementById('imageError').innerText = 'Image required'; ok = false; }
+
+    return ok;
+  }
 </script>

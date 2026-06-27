@@ -1,0 +1,82 @@
+<section class="py-5 bg-light">
+  <div class="container">
+    <h3 class="mb-4 fw-bold">Checkout</h3>
+
+    <div class="row">
+
+      <!-- Delivery Details Form -->
+      <div class="col-md-7">
+        <div class="card shadow-sm border-0 mb-4">
+          <div class="card-body">
+            <h5 class="fw-bold mb-3">Delivery Details</h5>
+
+            <form action="/place-order" method="POST">
+
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Full Name</label>
+                <input type="text" name="name" class="form-control"
+                  value="{{user.name}}" required>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Phone Number</label>
+                <input type="text" name="phone" class="form-control"
+                  placeholder="Enter phone number" required>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Address</label>
+                <textarea name="address" class="form-control" rows="3"
+                  placeholder="Enter full address" required></textarea>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Pincode</label>
+                <input type="text" name="pincode" class="form-control"
+                  placeholder="Enter pincode" required>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Payment Method</label>
+                <select name="paymentMethod" class="form-select" required>
+                  <option value="COD">Cash on Delivery</option>
+                  <option value="Online">Online Payment</option>
+                </select>
+              </div>
+
+              <button type="submit" class="btn btn-dark w-100 mt-2">
+                Place Order
+              </button>
+
+            </form>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Order Summary -->
+      <div class="col-md-5">
+        <div class="card shadow-sm border-0">
+          <div class="card-body">
+            <h5 class="fw-bold mb-3">Order Summary</h5>
+
+            {{#each products}}
+            <div class="d-flex justify-content-between mb-2">
+              <span>{{this.product.name}} x {{this.quantity}}</span>
+              <span>₹ {{this.subtotal}}</span>
+            </div>
+            {{/each}}
+
+            <hr>
+            <div class="d-flex justify-content-between fw-bold fs-5">
+              <span>Total</span>
+              <span>₹ {{total}}</span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

@@ -1,3 +1,4 @@
+require("dotenv").config();
 var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
@@ -27,6 +28,10 @@ app.engine(
       inc: function (value) {
         return parseInt(value) + 1;
       },
+      // 👈 ADDED
+      eq: function (a, b) {
+        return a === b;
+      },
     },
   }),
 );
@@ -45,17 +50,12 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      maxAge: 1000 * 60 * 60 * 24 * 7, // 👈 7 days - increase session time
+      maxAge: 1000 * 60 * 60 * 24 * 7,
     },
   }),
 );
-db.connect((err) => {
-  // if (err) {
-  //   console.error("MongoDB connection failed", err);
-  // } else {
-  //   console.log("Database connected successfully");
-  // }
-});
+
+db.connect((err) => {});
 
 app.use("/", userRouter);
 app.use("/admin", adminRouter);
@@ -67,11 +67,8 @@ app.use(function (req, res, next) {
 
 // error handler
 app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
-
-  // render the error page
   res.status(err.status || 500);
   res.render("error");
 });
