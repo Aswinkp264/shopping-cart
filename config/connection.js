@@ -5,15 +5,16 @@ const state = {
 };
 
 module.exports.connect = async function (done) {
-  const url = "mongodb://127.0.0.1:27017";
-  const dbname = "shopping";
+  const url = process.env.MONGODB_URI;
+  const dbname = process.env.DB_NAME;
 
   try {
     const client = await MongoClient.connect(url);
     state.db = client.db(dbname);
-    // console.log("MongoDB Connected");
+    console.log("✅ MongoDB Connected");
     done();
   } catch (err) {
+    console.error("❌ MongoDB Connection Error:", err);
     done(err);
   }
 };
