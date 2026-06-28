@@ -55,7 +55,13 @@ app.use(
   }),
 );
 
-db.connect((err) => {});
+db.connect((err) => {
+  if (err) {
+    console.log("DB Connection Error:", err);
+  } else {
+    console.log("DB Connected Successfully");
+  }
+});
 
 app.use("/", userRouter);
 app.use("/admin", adminRouter);
