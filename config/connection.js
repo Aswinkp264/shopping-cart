@@ -5,20 +5,26 @@ const state = {
 };
 
 module.exports.connect = async function (done) {
-  const url = process.env.MONGODB_URI;
-  const dbname = process.env.DB_NAME;
-
   try {
-    const client = await MongoClient.connect(url);
-    state.db = client.db(dbname);
+    const client = new MongoClient(process.env.MONGODB_URI);
+
+    await client.connect();
+
+    state.db = client.db(process.env.DB_NAME);
+
     console.log("✅ MongoDB Connected");
+
     done();
   } catch (err) {
-    console.error("❌ MongoDB Connection Error:", err);
+    console.log(err);
     done(err);
   }
 };
 
 module.exports.get = function () {
+  if (!state.db) {
+    throw new Error("Database not connected");
+  }
+
   return state.db;
 };
