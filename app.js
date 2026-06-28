@@ -60,11 +60,11 @@ db.connect((err) => {
     console.log("DB Connection Error:", err);
   } else {
     console.log("DB Connected Successfully");
+
+    app.use("/", userRouter);
+    app.use("/admin", adminRouter);
   }
 });
-
-app.use("/", userRouter);
-app.use("/admin", adminRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
