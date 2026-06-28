@@ -1,6 +1,8 @@
 var db = require("../config/connection");
 var collection = require("../config/collections");
 const bcrypt = require("bcrypt");
+const { resolve, reject } = require("promise");
+const { Result } = require("pg");
 const { ObjectId } = require("mongodb");
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
@@ -167,6 +169,7 @@ module.exports = {
               product: { $arrayElemAt: ["$product", 0] },
             },
           },
+          // ✅ FIX: use finalPrice when discount exists, else use price
           {
             $addFields: {
               effectivePrice: {

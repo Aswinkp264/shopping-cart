@@ -46,7 +46,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(fileUpload());
 app.use(
   session({
-    secret: process.env.SESSION_SECRET || "your-secret-key",
+    secret: "your-secret-key",
     resave: false,
     saveUninitialized: false,
     cookie: {
